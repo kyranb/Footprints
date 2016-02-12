@@ -1,0 +1,49 @@
+{
+    "name": "kyranb/footprints",
+    "type": "library",
+    "description": ":package_description",
+    "keywords": [
+        "footprints",
+        "tracking",
+        "utm",
+        "utm parameters",
+        "user tracking",
+        "attribution tracking"
+    ],
+    "homepage": "https://github.com/kyranb/footprints",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kyran Beasley",
+            "email": "kyranbeasley@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "~5.1",
+        "php" : "~5.5|~7.0"
+    },
+    "require-dev": {
+        "laravel/framework": "5.1",
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1",
+        "squizlabs/php_codesniffer": "~2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kyranb\\Footprints\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kyranb\\Footprints\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

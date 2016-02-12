@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class SetupFootprintAttributionTracking extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('visits', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer(config('footprints.column_name'))->unsigned()->nullable();
+            $table->string('cookie_token');
+            $table->string('landing_page');
+            $table->string('referrer_domain')->nullable();
+            $table->string('referrer_url')->nullable();
+            $table->string('referrer')->nullable();
+            $table->string('utm_source')->nullable();
+            $table->string('utm_campaign')->nullable();
+            $table->string('utm_medium')->nullable();
+            $table->string('utm_term')->nullable();
+            $table->string('utm_content')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('visits');
+    }
+}
