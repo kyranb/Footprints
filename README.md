@@ -1,4 +1,4 @@
-# Footprints for Laravel 5.1+
+# :feet: Footprints for Laravel 5.1+
 
 ![Footprints for Laravel 5.1+](readme-header.jpg)
 
