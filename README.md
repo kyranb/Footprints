@@ -96,8 +96,11 @@ and attribution duration (in seconds)
 * landing_page
 * referrer_url
 * referrer_domain
+* utm_source
+* utm_campaign
 * utm_medium
 * utm_term
+* utm_content
 * created_at (date of visit)
 
 ##### Get all of a user's visits before registering.
