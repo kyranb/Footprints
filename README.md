@@ -1,6 +1,6 @@
-# :feet: Footprints for Laravel 5.1+
+# :feet: Footprints for Laravel 5.1+ (UTM and Referrer Tracking)
 
-![Footprints for Laravel 5.1+](readme-header.jpg)
+![Footprints for Laravel 5.1+ (UTM and Referrer Tracking)](readme-header.jpg)
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -14,7 +14,7 @@ Footprints is a simple registration attribution tracking solution for Laravel 5.
 
 By tracking where user signups (or any other kind of registrations) originate from you can ensure that your marketing efforts are more focused.
 
-Footprints makes it easy to look back and see what lead to a user signing up.
+Footprints makes it easy to look back and see what lead to a user signing up. 
 
 ## Install
 
@@ -24,7 +24,7 @@ Via Composer
 $ composer require kyranb/footprints
 ```
 
-Add the ServiceProvider and Alias to their relative arrays in config/app.php:
+Add the service provider and (optionally) alias to their relative arrays in config/app.php:
 
 ``` php
 
@@ -91,17 +91,39 @@ and attribution duration (in seconds)
 
 ## Usage
 
+#### How does Footprints work?
+
+Footprints tracks the UTM parameters and HTTP refererers from all requests to your application that are sent by un-authenticated uers. Not sure what UTM parameters are? [Wikipedia](https://en.wikipedia.org/wiki/UTM_parameters) has you covered:
+
+> UTM parameters (UTM) is a shortcut for Urchin Traffic Monitor. This text tags allow users to track and analyze traffic sources in analytical tools (f.e. Google Analytics). By adding UTM parameters to URLs, you can identify the source and campaigns that send traffic to your website. When a user clicks a referral link / ad or banner, these parameters are sent to Google Analytics (or other analytical tool), so you can see the effectiveness of each campaign in your reports
+
+> ###### Here is example of UTM parameters in a URL: www.wikipedia.org/?utm_source=domain.com&utm_medium=banner&utm_campaign=winter15&utm_content=blue_ad&utm_term=headline_v1
+
+####### There are 5 dimensions of UTM parameters:
+
+* utm_source = name of the source (usually the domain of source website)
+
+* utm_medium = name of the medium; type of traffic (f.e. cpc = paid search, organic = organic search; referral = link from another website etc.)
+
+* utm_campaign = name of the campaign, f.e. name of the campaign in Google AdWords, date of your e-mail campaign, etc.
+
+* utm_content = to distinguish different parts of one campaign; f.e. name of AdGroup in Google AdWords (with auto-tagging you will see the headline of - your ads in this dimension)
+
+* utm_term = to distinguish different parts of one content; f.e.keyword in Google AdWords
+
+
+
 #### What data is tracked for each visit?
 
-* landing_page
-* referrer_url
-* referrer_domain
-* utm_source
-* utm_campaign
-* utm_medium
-* utm_term
-* utm_content
-* created_at (date of visit)
+* `landing_page`
+* `referrer_url`
+* `referrer_domain`
+* `utm_source`
+* `utm_campaign`
+* `utm_medium`
+* `utm_term`
+* `utm_content`
+* `created_at` (date of visit)
 
 ##### Get all of a user's visits before registering.
 ``` php
