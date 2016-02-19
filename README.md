@@ -45,7 +45,7 @@ Add the service provider and (optionally) alias to their relative arrays in conf
 Publish the config and migration files:
 
 ``` php
-php artisan kyranb:publish --provider="Kyranb\Footprints\FootprintsServiceProvider"
+php artisan vendor:publish --provider="Kyranb\Footprints\FootprintsServiceProvider"
 ```
 
 Add the ```TrackRegistrationAttribution``` trait to the model you wish to track attributions for. For example:
