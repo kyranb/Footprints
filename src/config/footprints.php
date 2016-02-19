@@ -13,16 +13,16 @@ return [
 
     'model' => 'App\User',
 
-   /*
-   |--------------------------------------------------------------------------
-   | Relationship Column Name
-   |--------------------------------------------------------------------------
-   |
-   | The column that defines the relation between tracked vists and the model.
-   |
-   */
+    /*
+    |--------------------------------------------------------------------------
+    | Relationship Column Name
+    |--------------------------------------------------------------------------
+    |
+    | The column that defines the relation between tracked vists and the model.
+    |
+    */
 
-   'model_column_name' => 'user_id',
+    'column_name' => 'user_id',
 
     /*
     |--------------------------------------------------------------------------
