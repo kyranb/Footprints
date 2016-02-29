@@ -18,7 +18,7 @@ class FootprintsServiceProvider extends ServiceProvider
         ]);
 
         $this->publishes([
-               __DIR__.'/database/migrations/migrations.stub' => database_path('/migrations/'.date('Y_m_d_His').'_setup_footprint_attribution_tracking.php'),
+               __DIR__.'/database/migrations/migrations.stub' => database_path('/migrations/'.date('Y_m_d_His').'_create_visits_table.php'),
            ], 'migrations');
 
         if (config('footprints.global_middleware') !== false) {
