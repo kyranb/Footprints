@@ -101,7 +101,7 @@ class CaptureAttributionDataMiddleware
     {
         $referrer = [];
 
-        $referrer['referrer_url'] = 'http://google.com';
+        $referrer['referrer_url'] = $this->request->headers->get('referer');
 
         $parsedUrl = parse_url($referrer['referrer_url']);
 
