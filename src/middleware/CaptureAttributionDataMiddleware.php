@@ -124,8 +124,9 @@ class CaptureAttributionDataMiddleware
              'referrer_url' => $attributionData['referrer']['referrer_url'],
              'utm_source' => $attributionData['utm']['utm_source'],
              'utm_campaign' => $attributionData['utm']['utm_campaign'],
-             'utm_medium' => $attributionData['utm']['utm_term'],
-             'utm_term' => $attributionData['utm']['utm_content'],
+             'utm_medium' => $attributionData['utm']['utm_medium'],
+             'utm_term' => $attributionData['utm']['utm_term'],
+             'utm_content' => $attributionData['utm']['utm_content'],
              'created_at' => date('Y-m-d H:i:s'),
              'updated_at' => date('Y-m-d H:i:s'),
             ]
