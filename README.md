@@ -89,6 +89,24 @@ and attribution duration (in seconds)
 ``` 'attribution_duration' => 2628000 ```
 
 
+Add the `\Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class` middleware to `App\Http\Kernal.php` after the `EncryptCookie` middleware like so:
+
+```php
+    /**
+     * The application's global HTTP middleware stack.
+     *
+     * These middleware are run during every request to your application.
+     *
+     * @var array
+     */
+    protected $middleware = [
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\EncryptCookies::class,
+        \Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class,
+    ];
+```
+
+
 ## Usage
 
 #### How does Footprints work?
