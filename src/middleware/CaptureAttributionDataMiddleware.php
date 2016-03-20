@@ -62,6 +62,7 @@ class CaptureAttributionDataMiddleware
         $attributionData['landing_page'] = $this->captureLandingPage();
         $attributionData['referrer'] = $this->captureReferrer();
         $attributionData['utm'] = $this->captureUTM();
+        $attributionData['referral'] = $this->captureReferral();
 
         return $attributionData;
     }
@@ -111,6 +112,15 @@ class CaptureAttributionDataMiddleware
     }
 
     /**
+     * @return string
+     */
+    protected function captureReferral()
+    {
+        return $this->request->input('ref');
+
+    }
+
+    /**
      * @param array $attributionData
      *
      * @return int $id The id of the visit in the database
@@ -127,6 +137,7 @@ class CaptureAttributionDataMiddleware
              'utm_medium' => $attributionData['utm']['utm_medium'],
              'utm_term' => $attributionData['utm']['utm_term'],
              'utm_content' => $attributionData['utm']['utm_content'],
+             'referral' => $attributionData['referral'],
              'created_at' => date('Y-m-d H:i:s'),
              'updated_at' => date('Y-m-d H:i:s'),
             ]
