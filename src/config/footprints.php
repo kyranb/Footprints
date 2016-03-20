@@ -46,16 +46,4 @@ return [
 
     'attribution_duration' => 2628000,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Global Middleware
-    |--------------------------------------------------------------------------
-    |
-    | Leave this enabled unless you wish to implement the same functionality
-    | as the CaptureReferrerDataMiddleware
-    |
-    */
-
-    'global_middleware' => true,
-
 ];

@@ -21,9 +21,6 @@ class FootprintsServiceProvider extends ServiceProvider
                __DIR__.'/database/migrations/migrations.stub' => database_path('/migrations/'.date('Y_m_d_His').'_create_visits_table.php'),
            ], 'migrations');
 
-        if (config('footprints.global_middleware') !== false) {
-            $this->app->make('Illuminate\Contracts\Http\Kernel')->pushMiddleware('Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware');
-        };
     }
 
     /**
