@@ -1,6 +1,6 @@
 <?php
 
-namespace Kyranb\Footprints\middleware;
+namespace Kyranb\Footprints\Middleware;
 
 use Auth;
 use Closure;
