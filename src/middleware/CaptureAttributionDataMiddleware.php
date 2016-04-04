@@ -38,7 +38,12 @@ class CaptureAttributionDataMiddleware
 
         $this->response = $next($this->request);
 
-        //Don't bother tracking the visit if they already have an account.  
+        //Only track get requests
+        if (!$this->request->isMethod('get')) {
+            return $this->response;
+        }
+
+        //Don't bother tracking the visit if they already have an account.
         if (Auth::check()) {
             return $this->response;
         }
