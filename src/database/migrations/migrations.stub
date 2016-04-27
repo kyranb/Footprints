@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVisitsTable extends Migration
+class CreateFootprintsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateVisitsTable extends Migration
      */
     public function up()
     {
-        Schema::create('visits', function (Blueprint $table) {
+        Schema::create(config('footprints.table_name'), function (Blueprint $table) {
             $table->increments('id');
             $table->integer(config('footprints.column_name'))->unsigned()->nullable();
             $table->string('cookie_token');
@@ -37,6 +37,6 @@ class CreateVisitsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('visits');
+        Schema::drop(config('footprints.table_name'));
     }
 }

@@ -4,13 +4,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Table Name
+    |--------------------------------------------------------------------------
+    |
+    | The name of the database table that will hold UTM data
+    |
+    */
+    'table_name' => 'visits',
+
+    /*
+    |--------------------------------------------------------------------------
     | Model
     |--------------------------------------------------------------------------
     |
     | The model to track attribution events for.
     |
     */
-
     'model' => 'App\User',
 
     /*
@@ -21,7 +30,6 @@ return [
     | The column that defines the relation between tracked vists and the model.
     |
     */
-
     'column_name' => 'user_id',
 
     /*
@@ -32,7 +40,6 @@ return [
     | The name of the cookie that is set to keep track of attributions.
     |
     */
-
     'cookie_name' => 'footprints',
 
     /*
@@ -43,7 +50,5 @@ return [
     | How long since the initial visit should an attribution last for.
     |
     */
-
     'attribution_duration' => 2628000,
-
 ];
