@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visit extends Model
 {
+
+    /**
+     * The name of the database table
+     * @var string
+     */
+    protected $table = 'visits';
+
     /**
      * The attributes that aren't mass assignable.
      *
@@ -22,6 +29,20 @@ class Visit extends Model
     protected $dates = [
         'created_at', 'updated_at',
     ];
+
+
+    /**
+     * Constructor
+     * Override constructor to set the table name @ time of instantiation
+     */
+
+    public function __construct(array $attributes)
+    {
+        parent::__construct($attributes);
+        $this->setTable(config('footprints.table_name'));
+    }
+
+
 
     /**
      * Get the account that owns the visit.

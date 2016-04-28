@@ -132,21 +132,20 @@ class CaptureAttributionDataMiddleware
      */
     protected function trackVisit($attributionData, $cookieToken)
     {
-        return DB::table('visits')->insertGetId(
-            ['cookie_token' => $cookieToken,
-             'landing_page' => $attributionData['landing_page'],
-             'referrer_domain' => $attributionData['referrer']['referrer_domain'],
-             'referrer_url' => $attributionData['referrer']['referrer_url'],
-             'utm_source' => $attributionData['utm']['utm_source'],
-             'utm_campaign' => $attributionData['utm']['utm_campaign'],
-             'utm_medium' => $attributionData['utm']['utm_medium'],
-             'utm_term' => $attributionData['utm']['utm_term'],
-             'utm_content' => $attributionData['utm']['utm_content'],
-             'referral' => $attributionData['referral'],
-             'created_at' => date('Y-m-d H:i:s'),
-             'updated_at' => date('Y-m-d H:i:s'),
-            ]
-        );
+        return DB::table(config('footprints.table_name'))->insertGetId([
+          'cookie_token' => $cookieToken,
+          'landing_page' => $attributionData['landing_page'],
+          'referrer_domain' => $attributionData['referrer']['referrer_domain'],
+          'referrer_url' => $attributionData['referrer']['referrer_url'],
+          'utm_source' => $attributionData['utm']['utm_source'],
+          'utm_campaign' => $attributionData['utm']['utm_campaign'],
+          'utm_medium' => $attributionData['utm']['utm_medium'],
+          'utm_term' => $attributionData['utm']['utm_term'],
+          'utm_content' => $attributionData['utm']['utm_content'],
+          'referral' => $attributionData['referral'],
+          'created_at' => date('Y-m-d H:i:s'),
+          'updated_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 
     /**
