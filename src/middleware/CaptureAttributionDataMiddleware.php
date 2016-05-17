@@ -160,8 +160,10 @@ class CaptureAttributionDataMiddleware
             $cookieToken = $this->request->cookie(config('footprints.cookie_name'));
         }
 
-        $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration')));
-
+        if (method_exists($this->response, "withCookie")) {
+            $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration')));
+        }
+        
         return $cookieToken;
     }
 }
