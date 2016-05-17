@@ -37,7 +37,7 @@ Add the service provider and (optionally) alias to their relative arrays in conf
 
     'aliases' => [
         ...
-        'Footprints'   => Kyranb\Footprints\Facades\Footprints::class,
+        'Footprints'   => Kyranb\Footprints\FootprintsFacade::class,
     ],
 
 ```
@@ -89,7 +89,7 @@ and attribution duration (in seconds)
 ``` 'attribution_duration' => 2628000 ```
 
 
-Add the `\Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class` middleware to `App\Http\Kernal.php` after the `EncryptCookie` middleware like so:
+Add the `\Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class` middleware to `App\Http\Kernel.php` after the `EncryptCookie` middleware like so:
 
 ```php
     /**
