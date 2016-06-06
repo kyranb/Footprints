@@ -28,7 +28,7 @@ class CaptureAttributionDataMiddleware
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
+     * @param \Closure $next
      *
      * @return mixed
      */
@@ -43,18 +43,48 @@ class CaptureAttributionDataMiddleware
             return $this->response;
         }
 
-        //Don't bother tracking the visit if they already have an account.
-        if (Auth::check()) {
+        if ($this->disableOnAuthentication()) {
+            return $this->response;
+        }
+
+        if ($this->disableInternalLinks()) {
             return $this->response;
         }
 
         $attributionData = $this->captureAttributionData();
-
         $cookieToken = $this->findOrCreateTrackingCookieToken();
 
         $this->trackVisit($attributionData, $cookieToken);
 
         return $this->response;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function disableOnAuthentication()
+    {
+        if (Auth::check() && config('footprints.disable_on_authentication')) {
+            return true;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function disableInternalLinks()
+    {
+        if (!config('footprints.disable_internal_links')) {
+            return false;
+        }
+
+        $referrer_domain = parse_url($this->request->headers->get('referer'));
+        $referrer_domain = !isset($referrer_domain['host']) ? null : $referrer_domain['host'];
+        $request_domain = $this->request->server('SERVER_NAME');
+
+        if (!empty($referrer_domain) && $referrer_domain == $request_domain) {
+            return true;
+        }
     }
 
     /**
@@ -133,18 +163,18 @@ class CaptureAttributionDataMiddleware
     protected function trackVisit($attributionData, $cookieToken)
     {
         return DB::table(config('footprints.table_name'))->insertGetId([
-          'cookie_token' => $cookieToken,
-          'landing_page' => $attributionData['landing_page'],
-          'referrer_domain' => $attributionData['referrer']['referrer_domain'],
-          'referrer_url' => $attributionData['referrer']['referrer_url'],
-          'utm_source' => $attributionData['utm']['utm_source'],
-          'utm_campaign' => $attributionData['utm']['utm_campaign'],
-          'utm_medium' => $attributionData['utm']['utm_medium'],
-          'utm_term' => $attributionData['utm']['utm_term'],
-          'utm_content' => $attributionData['utm']['utm_content'],
-          'referral' => $attributionData['referral'],
-          'created_at' => date('Y-m-d H:i:s'),
-          'updated_at' => date('Y-m-d H:i:s'),
+            'cookie_token' => $cookieToken,
+            'landing_page' => $attributionData['landing_page'],
+            'referrer_domain' => $attributionData['referrer']['referrer_domain'],
+            'referrer_url' => $attributionData['referrer']['referrer_url'],
+            'utm_source' => $attributionData['utm']['utm_source'],
+            'utm_campaign' => $attributionData['utm']['utm_campaign'],
+            'utm_medium' => $attributionData['utm']['utm_medium'],
+            'utm_term' => $attributionData['utm']['utm_term'],
+            'utm_content' => $attributionData['utm']['utm_content'],
+            'referral' => $attributionData['referral'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);
     }
 
@@ -162,7 +192,7 @@ class CaptureAttributionDataMiddleware
         if (method_exists($this->response, "withCookie")) {
             $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration')));
         }
-        
+
         return $cookieToken;
     }
 }
