@@ -26,6 +26,13 @@ class CreateFootprintsTable extends Migration
             $table->string('utm_term')->nullable();
             $table->string('utm_content')->nullable();
             $table->string('referral')->nullable();
+            
+            if (config('footprints.custom_parameters')) {
+                foreach (config('footprints.custom_parameters') as $parameter) {
+                    $table->string($parameter)->nullable();
+                }
+            }
+            
             $table->timestamps();
         });
     }
