@@ -36,7 +36,7 @@ trait TrackRegistrationAttribution
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    private function assignPreviousVisits()
+    public function assignPreviousVisits()
     {
         return Visit::previousVisits()->update([
           config('footprints.column_name') => $this->id
