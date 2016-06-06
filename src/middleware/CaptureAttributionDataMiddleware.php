@@ -98,8 +98,25 @@ class CaptureAttributionDataMiddleware
         $attributionData['referrer'] = $this->captureReferrer();
         $attributionData['utm'] = $this->captureUTM();
         $attributionData['referral'] = $this->captureReferral();
+        $attributionData['custom'] = $this->getCustomParameter();
 
         return $attributionData;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCustomParameter()
+    {
+        $arr = [];
+
+        if (config('footprints.custom_parameters')) {
+            foreach (config('footprints.custom_parameters') as $parameter) {
+                $arr[$parameter] = $this->request->input($parameter);
+            }
+        }
+
+        return $arr;
     }
 
     /**
@@ -162,7 +179,7 @@ class CaptureAttributionDataMiddleware
      */
     protected function trackVisit($attributionData, $cookieToken)
     {
-        return DB::table(config('footprints.table_name'))->insertGetId([
+        return DB::table(config('footprints.table_name'))->insertGetId(array_merge([
             'cookie_token' => $cookieToken,
             'landing_page' => $attributionData['landing_page'],
             'referrer_domain' => $attributionData['referrer']['referrer_domain'],
@@ -175,7 +192,7 @@ class CaptureAttributionDataMiddleware
             'referral' => $attributionData['referral'],
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
-        ]);
+        ], $attributionData['custom']));
     }
 
     /**
