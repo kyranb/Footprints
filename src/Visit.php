@@ -36,7 +36,7 @@ class Visit extends Model
      * Override constructor to set the table name @ time of instantiation
      */
 
-    public function __construct(array $attributes)
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->setTable(config('footprints.table_name'));
