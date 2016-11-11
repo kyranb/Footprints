@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kyranb\\Footprints\\": "src"
+            "Kyranb\\Footprints\\": "src/"
         }
     },
     "autoload-dev": {
