@@ -52,6 +52,10 @@ class CaptureAttributionDataMiddleware
             return $this->response;
         }
 
+        if ($this->disabledLandingPages($this->captureLandingPage())) {
+            return $this->response;
+        }
+
         $attributionData = $this->captureAttributionData();
         $cookieToken = $this->findOrCreateTrackingCookieToken();
 
@@ -225,5 +229,26 @@ class CaptureAttributionDataMiddleware
         }
 
         return $cookieToken;
+    }
+
+    /**
+     *
+     * @param   string  $landing_page
+     * @return  array|boolean
+     */
+    protected function disabledLandingPages($landing_page = null)
+    {
+        $blacklist = (array)config('footprints.landing_page_blacklist');
+
+        if ($landing_page) {
+            
+            $k = array_search($landing_page, $blacklist);
+
+            return $k === false ? false : true;
+        }
+        else {
+
+            return $blacklist;
+        }
     }
 }
