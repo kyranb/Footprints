@@ -95,11 +95,12 @@ class CaptureAttributionDataMiddleware
     {
         $attributionData = [];
 
-        $attributionData['landing_page'] = $this->captureLandingPage();
-        $attributionData['referrer'] = $this->captureReferrer();
-        $attributionData['utm'] = $this->captureUTM();
-        $attributionData['referral'] = $this->captureReferral();
-        $attributionData['custom'] = $this->getCustomParameter();
+        $attributionData['landing_domain']  = $this->captureLandingDomain();
+        $attributionData['landing_page']    = $this->captureLandingPage();
+        $attributionData['referrer']        = $this->captureReferrer();
+        $attributionData['utm']             = $this->captureUTM();
+        $attributionData['referral']        = $this->captureReferral();
+        $attributionData['custom']          = $this->getCustomParameter();
 
         return $attributionData;
     }
@@ -118,6 +119,14 @@ class CaptureAttributionDataMiddleware
         }
 
         return $arr;
+    }
+
+    /**
+     * @return string
+     */
+    protected function captureLandingDomain()
+    {
+        return $this->request->server('SERVER_NAME');
     }
 
     /**
@@ -180,20 +189,24 @@ class CaptureAttributionDataMiddleware
      */
     protected function trackVisit($attributionData, $cookieToken)
     {
-        return Visit::insertGetId(array_merge([
-            'cookie_token' => $cookieToken,
-            'landing_page' => $attributionData['landing_page'],
-            'referrer_domain' => $attributionData['referrer']['referrer_domain'],
-            'referrer_url' => $attributionData['referrer']['referrer_url'],
-            'utm_source' => $attributionData['utm']['utm_source'],
-            'utm_campaign' => $attributionData['utm']['utm_campaign'],
-            'utm_medium' => $attributionData['utm']['utm_medium'],
-            'utm_term' => $attributionData['utm']['utm_term'],
-            'utm_content' => $attributionData['utm']['utm_content'],
-            'referral' => $attributionData['referral'],
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+        $visit = Visit::create(array_merge([
+            
+            'cookie_token'      => $cookieToken,
+            'landing_domain'    => $attributionData['landing_domain'],
+            'landing_page'      => $attributionData['landing_page'],
+            'referrer_domain'   => $attributionData['referrer']['referrer_domain'],
+            'referrer_url'      => $attributionData['referrer']['referrer_url'],
+            'utm_source'        => $attributionData['utm']['utm_source'],
+            'utm_campaign'      => $attributionData['utm']['utm_campaign'],
+            'utm_medium'        => $attributionData['utm']['utm_medium'],
+            'utm_term'          => $attributionData['utm']['utm_term'],
+            'utm_content'       => $attributionData['utm']['utm_content'],
+            'referral'          => $attributionData['referral'],
+            'created_at'        => date('Y-m-d H:i:s'),
+            'updated_at'        => date('Y-m-d H:i:s'),
         ], $attributionData['custom']));
+
+        return $visit->id;
     }
 
     /**
