@@ -34,12 +34,21 @@ class Visit extends Model
     /**
      * Constructor
      * Override constructor to set the table name @ time of instantiation
+     *
+     * @param array $attributes
+     * @return void
      */
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+
         $this->setTable(config('footprints.table_name'));
+
+        if (config('footprints.connection_name')) {
+            
+            $this->setConnection(config('footprints.connection_name'));
+        }
     }
 
 

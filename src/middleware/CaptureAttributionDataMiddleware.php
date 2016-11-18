@@ -7,6 +7,7 @@ use Closure;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Kyranb\Footprints\Visit;
 
 class CaptureAttributionDataMiddleware
 {
@@ -179,7 +180,7 @@ class CaptureAttributionDataMiddleware
      */
     protected function trackVisit($attributionData, $cookieToken)
     {
-        return DB::table(config('footprints.table_name'))->insertGetId(array_merge([
+        return Visit::insertGetId(array_merge([
             'cookie_token' => $cookieToken,
             'landing_page' => $attributionData['landing_page'],
             'referrer_domain' => $attributionData['referrer']['referrer_domain'],

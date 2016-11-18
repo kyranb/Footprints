@@ -5,6 +5,12 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateFootprintsTable extends Migration
 {
+
+    private function getConnectionName()
+    {
+        return config('footprints.connection_name') ? config('footprints.connection_name') : config('database.default');
+    }
+
     /**
      * Run the migrations.
      *
@@ -12,7 +18,7 @@ class CreateFootprintsTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('footprints.table_name'), function (Blueprint $table) {
+        Schema::connection($this->getConnectionName())->create(config('footprints.table_name'), function (Blueprint $table) {
             $table->increments('id');
             $table->integer(config('footprints.column_name'))->unsigned()->nullable();
             $table->string('cookie_token');
@@ -44,6 +50,6 @@ class CreateFootprintsTable extends Migration
      */
     public function down()
     {
-        Schema::drop(config('footprints.table_name'));
+        Schema::connection($this->getConnectionName())->drop(config('footprints.table_name'));
     }
 }
