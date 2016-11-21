@@ -88,6 +88,10 @@ and attribution duration (in seconds)
 
 ``` 'attribution_duration' => 2628000 ```
 
+also you can define some route what you don't want to track:
+
+``` 'landing_page_blacklist' => ['genealabs/laravel-caffeine/drip', 'admin'] ```
+
 
 Add the `\Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class` middleware to `App\Http\Kernel.php` after the `EncryptCookie` middleware like so:
 

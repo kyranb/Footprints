@@ -88,5 +88,8 @@ return [
     |
     |
     */
-    'landing_page_blacklist' => [],
+    'landing_page_blacklist' => [
+
+        'genealabs/laravel-caffeine/drip'
+    ],
 ];
