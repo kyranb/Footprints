@@ -92,4 +92,15 @@ return [
 
         'genealabs/laravel-caffeine/drip'
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cookie domain
+    |--------------------------------------------------------------------------
+    |
+    | If you want to use with more subdomain
+    | you have to set this to *.yourdomain.com
+    |
+    */
+    'cookie_domain' => null,
 ];

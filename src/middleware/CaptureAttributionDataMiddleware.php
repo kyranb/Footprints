@@ -223,9 +223,9 @@ class CaptureAttributionDataMiddleware
         if ($this->request->hasCookie(config('footprints.cookie_name'))) {
             $cookieToken = $this->request->cookie(config('footprints.cookie_name'));
         }
-
+        
         if (method_exists($this->response, "withCookie")) {
-            $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration')));
+            $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration'), null, config('footprints.cookie_domain')));
         }
 
         return $cookieToken;
