@@ -7,6 +7,7 @@ use Closure;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Kyranb\Footprints\Visit;
 
 class CaptureAttributionDataMiddleware
 {
@@ -48,6 +49,10 @@ class CaptureAttributionDataMiddleware
         }
 
         if ($this->disableInternalLinks()) {
+            return $this->response;
+        }
+
+        if ($this->disabledLandingPages($this->captureLandingPage())) {
             return $this->response;
         }
 
@@ -94,11 +99,12 @@ class CaptureAttributionDataMiddleware
     {
         $attributionData = [];
 
-        $attributionData['landing_page'] = $this->captureLandingPage();
-        $attributionData['referrer'] = $this->captureReferrer();
-        $attributionData['utm'] = $this->captureUTM();
-        $attributionData['referral'] = $this->captureReferral();
-        $attributionData['custom'] = $this->getCustomParameter();
+        $attributionData['landing_domain']  = $this->captureLandingDomain();
+        $attributionData['landing_page']    = $this->captureLandingPage();
+        $attributionData['referrer']        = $this->captureReferrer();
+        $attributionData['utm']             = $this->captureUTM();
+        $attributionData['referral']        = $this->captureReferral();
+        $attributionData['custom']          = $this->getCustomParameter();
 
         return $attributionData;
     }
@@ -117,6 +123,14 @@ class CaptureAttributionDataMiddleware
         }
 
         return $arr;
+    }
+
+    /**
+     * @return string
+     */
+    protected function captureLandingDomain()
+    {
+        return $this->request->server('SERVER_NAME');
     }
 
     /**
@@ -179,20 +193,24 @@ class CaptureAttributionDataMiddleware
      */
     protected function trackVisit($attributionData, $cookieToken)
     {
-        return DB::table(config('footprints.table_name'))->insertGetId(array_merge([
-            'cookie_token' => $cookieToken,
-            'landing_page' => $attributionData['landing_page'],
-            'referrer_domain' => $attributionData['referrer']['referrer_domain'],
-            'referrer_url' => $attributionData['referrer']['referrer_url'],
-            'utm_source' => $attributionData['utm']['utm_source'],
-            'utm_campaign' => $attributionData['utm']['utm_campaign'],
-            'utm_medium' => $attributionData['utm']['utm_medium'],
-            'utm_term' => $attributionData['utm']['utm_term'],
-            'utm_content' => $attributionData['utm']['utm_content'],
-            'referral' => $attributionData['referral'],
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+        $visit = Visit::create(array_merge([
+            
+            'cookie_token'      => $cookieToken,
+            'landing_domain'    => $attributionData['landing_domain'],
+            'landing_page'      => $attributionData['landing_page'],
+            'referrer_domain'   => $attributionData['referrer']['referrer_domain'],
+            'referrer_url'      => $attributionData['referrer']['referrer_url'],
+            'utm_source'        => $attributionData['utm']['utm_source'],
+            'utm_campaign'      => $attributionData['utm']['utm_campaign'],
+            'utm_medium'        => $attributionData['utm']['utm_medium'],
+            'utm_term'          => $attributionData['utm']['utm_term'],
+            'utm_content'       => $attributionData['utm']['utm_content'],
+            'referral'          => $attributionData['referral'],
+            'created_at'        => date('Y-m-d H:i:s'),
+            'updated_at'        => date('Y-m-d H:i:s'),
         ], $attributionData['custom']));
+
+        return $visit->id;
     }
 
     /**
@@ -205,11 +223,32 @@ class CaptureAttributionDataMiddleware
         if ($this->request->hasCookie(config('footprints.cookie_name'))) {
             $cookieToken = $this->request->cookie(config('footprints.cookie_name'));
         }
-
+        
         if (method_exists($this->response, "withCookie")) {
-            $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration')));
+            $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration'), null, config('footprints.cookie_domain')));
         }
 
         return $cookieToken;
+    }
+
+    /**
+     *
+     * @param   string  $landing_page
+     * @return  array|boolean
+     */
+    protected function disabledLandingPages($landing_page = null)
+    {
+        $blacklist = (array)config('footprints.landing_page_blacklist');
+
+        if ($landing_page) {
+            
+            $k = array_search($landing_page, $blacklist);
+
+            return $k === false ? false : true;
+        }
+        else {
+
+            return $blacklist;
+        }
     }
 }

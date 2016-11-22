@@ -1,6 +1,16 @@
 <?php
 
 return [
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Database connection name
+    |--------------------------------------------------------------------------
+    |
+    | The name of the database connection if not the default
+    |
+    */
+    'connection_name' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -70,4 +80,27 @@ return [
     */
     'disable_on_authentication' => true,
     'disable_internal_links' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disable Routes
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+    'landing_page_blacklist' => [
+
+        'genealabs/laravel-caffeine/drip'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cookie domain
+    |--------------------------------------------------------------------------
+    |
+    | If you want to use with more subdomain
+    | you have to set this to .yourdomain.com
+    |
+    */
+    'cookie_domain' => config('session.domain'),
 ];

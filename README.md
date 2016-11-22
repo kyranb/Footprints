@@ -88,6 +88,13 @@ and attribution duration (in seconds)
 
 ``` 'attribution_duration' => 2628000 ```
 
+also you can define some route what you don't want to track:
+
+``` 'landing_page_blacklist' => ['genealabs/laravel-caffeine/drip', 'admin'] ```
+
+if you want to use on multiple subdomain with a wildcard cookie, you can set your custom domain name:
+
+``` 'cookie_domain' => .yourdomain.com ```
 
 Add the `\Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class` middleware to `App\Http\Kernel.php` after the `EncryptCookie` middleware like so:
 
