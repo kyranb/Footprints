@@ -102,5 +102,5 @@ return [
     | you have to set this to .yourdomain.com
     |
     */
-    'cookie_domain' => null,
+    'cookie_domain' => config('session.domain'),
 ];
