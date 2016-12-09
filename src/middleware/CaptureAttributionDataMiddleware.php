@@ -101,6 +101,7 @@ class CaptureAttributionDataMiddleware
 
         $attributionData['landing_domain']  = $this->captureLandingDomain();
         $attributionData['landing_page']    = $this->captureLandingPage();
+        $attributionData['landing_params']  = $this->captureLandingParams();
         $attributionData['referrer']        = $this->captureReferrer();
         $attributionData['utm']             = $this->captureUTM();
         $attributionData['referral']        = $this->captureReferral();
@@ -139,6 +140,14 @@ class CaptureAttributionDataMiddleware
     protected function captureLandingPage()
     {
         return $this->request->path();
+    }
+
+    /**
+     * @return string
+     */
+    protected function captureLandingParams()
+    {
+        return $this->request->getQueryString();
     }
 
     /**
@@ -198,6 +207,7 @@ class CaptureAttributionDataMiddleware
             'cookie_token'      => $cookieToken,
             'landing_domain'    => $attributionData['landing_domain'],
             'landing_page'      => $attributionData['landing_page'],
+            'landing_params'    => $attributionData['landing_params'],
             'referrer_domain'   => $attributionData['referrer']['referrer_domain'],
             'referrer_url'      => $attributionData['referrer']['referrer_url'],
             'utm_source'        => $attributionData['utm']['utm_source'],
