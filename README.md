@@ -78,6 +78,12 @@ class User extends Model
 
 Go over the configuration file, most notably the model you wish to track:
 
+connection name (optional - if you need a separated tracking database):
+
+``` 'connection_name' => 'mytrackingdbconnection' ```
+
+model name:
+
 ``` 'model' => 'App\User' ```
 
 the column name:
@@ -95,6 +101,10 @@ also you can define some route what you don't want to track:
 if you want to use on multiple subdomain with a wildcard cookie, you can set your custom domain name:
 
 ``` 'cookie_domain' => .yourdomain.com ```
+
+this boolean will allow you to write the tracking data to the db in your queue (optional):
+
+``` 'async' => true ```
 
 Add the `\Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class` middleware to `App\Http\Kernel.php` after the `EncryptCookie` middleware like so:
 

@@ -59,7 +59,12 @@ class CaptureAttributionDataMiddleware
         $attributionData = $this->captureAttributionData();
         $cookieToken = $this->findOrCreateTrackingCookieToken();
 
-        $this->trackVisit($attributionData, $cookieToken);
+        if (config('footprints.async') == true) {
+            $this->asyncTrackVisit($attributionData, $cookieToken);
+        }
+        else {
+            $this->trackVisit($attributionData, $cookieToken);
+        }
 
         return $this->response;
     }
@@ -197,10 +202,30 @@ class CaptureAttributionDataMiddleware
 
     /**
      * @param array $attributionData
+     * @param string $cookieToken
+     *
+     * @return void
+     */
+    protected function asyncTrackVisit($attributionData, $cookieToken)
+    {
+        $attributionData['created_at'] = date('Y-m-d H:i:s');
+        $attributionData['updated_at'] = date('Y-m-d H:i:s');
+
+        \Queue::push(function($job) use ($attributionData, $cookieToken) {
+
+            CaptureAttributionDataMiddleware::trackVisit($attributionData, $cookieToken);
+
+            $job->delete();
+        });
+    }
+
+    /**
+     * @param array $attributionData
+     * @param string $cookieToken
      *
      * @return int $id The id of the visit in the database
      */
-    protected function trackVisit($attributionData, $cookieToken)
+    static public function trackVisit($attributionData, $cookieToken)
     {
         $visit = Visit::create(array_merge([
             
@@ -216,8 +241,8 @@ class CaptureAttributionDataMiddleware
             'utm_term'          => $attributionData['utm']['utm_term'],
             'utm_content'       => $attributionData['utm']['utm_content'],
             'referral'          => $attributionData['referral'],
-            'created_at'        => date('Y-m-d H:i:s'),
-            'updated_at'        => date('Y-m-d H:i:s'),
+            'created_at'        => @$attributionData['created_at'] ?: date('Y-m-d H:i:s'),
+            'updated_at'        => @$attributionData['updated_at'] ?: date('Y-m-d H:i:s'),
         ], $attributionData['custom']));
 
         return $visit->id;
@@ -233,7 +258,7 @@ class CaptureAttributionDataMiddleware
         if ($this->request->hasCookie(config('footprints.cookie_name'))) {
             $cookieToken = $this->request->cookie(config('footprints.cookie_name'));
         }
-        
+
         if (method_exists($this->response, "withCookie")) {
             $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration'), null, config('footprints.cookie_domain')));
         }
