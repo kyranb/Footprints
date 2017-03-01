@@ -59,7 +59,12 @@ class CaptureAttributionDataMiddleware
         $attributionData = $this->captureAttributionData();
         $cookieToken = $this->findOrCreateTrackingCookieToken();
 
-        $this->trackVisit($attributionData, $cookieToken);
+        if (config('footprints.async') == true) {
+            $this->asyncTrackVisit($attributionData, $cookieToken);
+        }
+        else {
+            $this->trackVisit($attributionData, $cookieToken);
+        }
 
         return $this->response;
     }
@@ -101,6 +106,7 @@ class CaptureAttributionDataMiddleware
 
         $attributionData['landing_domain']  = $this->captureLandingDomain();
         $attributionData['landing_page']    = $this->captureLandingPage();
+        $attributionData['landing_params']  = $this->captureLandingParams();
         $attributionData['referrer']        = $this->captureReferrer();
         $attributionData['utm']             = $this->captureUTM();
         $attributionData['referral']        = $this->captureReferral();
@@ -139,6 +145,14 @@ class CaptureAttributionDataMiddleware
     protected function captureLandingPage()
     {
         return $this->request->path();
+    }
+
+    /**
+     * @return string
+     */
+    protected function captureLandingParams()
+    {
+        return $this->request->getQueryString();
     }
 
     /**
@@ -188,16 +202,37 @@ class CaptureAttributionDataMiddleware
 
     /**
      * @param array $attributionData
+     * @param string $cookieToken
+     *
+     * @return void
+     */
+    protected function asyncTrackVisit($attributionData, $cookieToken)
+    {
+        $attributionData['created_at'] = date('Y-m-d H:i:s');
+        $attributionData['updated_at'] = date('Y-m-d H:i:s');
+
+        \Queue::push(function($job) use ($attributionData, $cookieToken) {
+
+            CaptureAttributionDataMiddleware::trackVisit($attributionData, $cookieToken);
+
+            $job->delete();
+        });
+    }
+
+    /**
+     * @param array $attributionData
+     * @param string $cookieToken
      *
      * @return int $id The id of the visit in the database
      */
-    protected function trackVisit($attributionData, $cookieToken)
+    static public function trackVisit($attributionData, $cookieToken)
     {
         $visit = Visit::create(array_merge([
             
             'cookie_token'      => $cookieToken,
             'landing_domain'    => $attributionData['landing_domain'],
             'landing_page'      => $attributionData['landing_page'],
+            'landing_params'    => $attributionData['landing_params'],
             'referrer_domain'   => $attributionData['referrer']['referrer_domain'],
             'referrer_url'      => $attributionData['referrer']['referrer_url'],
             'utm_source'        => $attributionData['utm']['utm_source'],
@@ -206,8 +241,8 @@ class CaptureAttributionDataMiddleware
             'utm_term'          => $attributionData['utm']['utm_term'],
             'utm_content'       => $attributionData['utm']['utm_content'],
             'referral'          => $attributionData['referral'],
-            'created_at'        => date('Y-m-d H:i:s'),
-            'updated_at'        => date('Y-m-d H:i:s'),
+            'created_at'        => @$attributionData['created_at'] ?: date('Y-m-d H:i:s'),
+            'updated_at'        => @$attributionData['updated_at'] ?: date('Y-m-d H:i:s'),
         ], $attributionData['custom']));
 
         return $visit->id;
@@ -223,7 +258,7 @@ class CaptureAttributionDataMiddleware
         if ($this->request->hasCookie(config('footprints.cookie_name'))) {
             $cookieToken = $this->request->cookie(config('footprints.cookie_name'));
         }
-        
+
         if (method_exists($this->response, "withCookie")) {
             $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration'), null, config('footprints.cookie_domain')));
         }

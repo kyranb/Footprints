@@ -25,6 +25,7 @@ class CreateFootprintsTable extends Migration
             $table->string('cookie_token');
             $table->string('landing_domain');
             $table->string('landing_page');
+            $table->string('landing_params')->nullable();
             $table->string('referrer_domain')->nullable();
             $table->string('referrer_url')->nullable();
             $table->string('referrer')->nullable();

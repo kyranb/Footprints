@@ -103,4 +103,15 @@ return [
     |
     */
     'cookie_domain' => config('session.domain'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Async
+    |--------------------------------------------------------------------------
+    |
+    | This function will use the laravel queue.
+    | Make sure your setup is correct.
+    |
+    */
+    'async' => false,
 ];
