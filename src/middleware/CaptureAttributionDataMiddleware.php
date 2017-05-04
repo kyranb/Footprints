@@ -74,7 +74,7 @@ class CaptureAttributionDataMiddleware
      */
     protected function disableOnAuthentication()
     {
-        if (Auth::check() && config('footprints.disable_on_authentication')) {
+        if (Auth::guard(config('footprints.guard'))->check() && config('footprints.disable_on_authentication')) {
             return true;
         }
     }
