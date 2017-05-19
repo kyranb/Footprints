@@ -39,7 +39,7 @@ trait TrackRegistrationAttribution
     public function assignPreviousVisits()
     {
         return Visit::previousVisits()->update([
-            config('footprints.column_name') => $this->id
+            config('footprints.column_name') => $this->getKey(),
         ]);
     }
 
