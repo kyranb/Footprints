@@ -1,6 +1,6 @@
-# :feet: Footprints for Laravel 5.1+ (UTM and Referrer Tracking)
+# :feet: Footprints for Laravel 5.2+ (UTM and Referrer Tracking)
 
-![Footprints for Laravel 5.1+ (UTM and Referrer Tracking)](readme-header.jpg)
+![Footprints for Laravel 5.2+ (UTM and Referrer Tracking)](readme-header.jpg)
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -8,7 +8,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 
 
-Footprints is a simple registration attribution tracking solution for Laravel 5.1+
+Footprints is a simple registration attribution tracking solution for Laravel 5.2+
 
 > “I know I waste half of my advertising dollars...I just wish I knew which half.” ~ *Henry Procter*.
 
@@ -85,6 +85,10 @@ connection name (optional - if you need a separated tracking database):
 model name:
 
 ``` 'model' => 'App\User' ```
+
+authentication guard:
+
+``` 'guard' => 'web' ```
 
 the column name:
 
