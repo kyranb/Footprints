@@ -1,6 +1,6 @@
-# :feet: Footprints for Laravel 5.2+ (UTM and Referrer Tracking)
+# :feet: Footprints for (UTM and Referrer Tracking)
 
-![Footprints for Laravel 5.2+ (UTM and Referrer Tracking)](readme-header.jpg)
+![Footprints for Laravel (UTM and Referrer Tracking)](readme-header.jpg)
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -197,6 +197,10 @@ $ composer test
 ## Contributing
 
 If you run into any issues, have suggestions or would like to expand this packages functionality, please open an issue or a pull request :)
+
+## Thanks
+
+Thanks to ZenCast, some of the [best Podcast Hosting](https://zencast.fm?ref=footprints-github) around.
 
 
 
