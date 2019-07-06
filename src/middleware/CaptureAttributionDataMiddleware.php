@@ -4,9 +4,7 @@ namespace Kyranb\Footprints\Middleware;
 
 use Auth;
 use Closure;
-use DB;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Kyranb\Footprints\Visit;
 
 class CaptureAttributionDataMiddleware
@@ -40,7 +38,7 @@ class CaptureAttributionDataMiddleware
         $this->response = $next($this->request);
 
         //Only track get requests
-        if (!$this->request->isMethod('get')) {
+        if (! $this->request->isMethod('get')) {
             return $this->response;
         }
 
@@ -61,8 +59,7 @@ class CaptureAttributionDataMiddleware
 
         if (config('footprints.async') == true) {
             $this->asyncTrackVisit($attributionData, $cookieToken);
-        }
-        else {
+        } else {
             $this->trackVisit($attributionData, $cookieToken);
         }
 
@@ -84,15 +81,15 @@ class CaptureAttributionDataMiddleware
      */
     protected function disableInternalLinks()
     {
-        if (!config('footprints.disable_internal_links')) {
+        if (! config('footprints.disable_internal_links')) {
             return false;
         }
 
         $referrer_domain = parse_url($this->request->headers->get('referer'));
-        $referrer_domain = !isset($referrer_domain['host']) ? null : $referrer_domain['host'];
+        $referrer_domain = ! isset($referrer_domain['host']) ? null : $referrer_domain['host'];
         $request_domain = $this->request->server('SERVER_NAME');
 
-        if (!empty($referrer_domain) && $referrer_domain == $request_domain) {
+        if (! empty($referrer_domain) && $referrer_domain == $request_domain) {
             return true;
         }
     }
@@ -108,6 +105,7 @@ class CaptureAttributionDataMiddleware
         $attributionData['landing_page']    = $this->captureLandingPage();
         $attributionData['landing_params']  = $this->captureLandingParams();
         $attributionData['referrer']        = $this->captureReferrer();
+        $attributionData['gclid']           = $this->captureGCLID();
         $attributionData['utm']             = $this->captureUTM();
         $attributionData['referral']        = $this->captureReferral();
         $attributionData['custom']          = $this->getCustomParameter();
@@ -194,10 +192,17 @@ class CaptureAttributionDataMiddleware
     /**
      * @return string
      */
+    protected function captureGCLID()
+    {
+        return $this->request->input('gclid');
+    }
+
+    /**
+     * @return string
+     */
     protected function captureReferral()
     {
         return $this->request->input('ref');
-
     }
 
     /**
@@ -211,8 +216,7 @@ class CaptureAttributionDataMiddleware
         $attributionData['created_at'] = date('Y-m-d H:i:s');
         $attributionData['updated_at'] = date('Y-m-d H:i:s');
 
-        \Queue::push(function($job) use ($attributionData, $cookieToken) {
-
+        \Queue::push(function ($job) use ($attributionData, $cookieToken) {
             CaptureAttributionDataMiddleware::trackVisit($attributionData, $cookieToken);
 
             $job->delete();
@@ -225,16 +229,20 @@ class CaptureAttributionDataMiddleware
      *
      * @return int $id The id of the visit in the database
      */
-    static public function trackVisit($attributionData, $cookieToken)
+    public static function trackVisit($attributionData, $cookieToken)
     {
+        $user = [];
+        $user[config('footprints.column_name')] = Auth::user() ? Auth::user()->id : null;
+
         $visit = Visit::create(array_merge([
-            
+
             'cookie_token'      => $cookieToken,
             'landing_domain'    => $attributionData['landing_domain'],
             'landing_page'      => $attributionData['landing_page'],
             'landing_params'    => $attributionData['landing_params'],
             'referrer_domain'   => $attributionData['referrer']['referrer_domain'],
             'referrer_url'      => $attributionData['referrer']['referrer_url'],
+            'gclid'             => $attributionData['gclid'],
             'utm_source'        => $attributionData['utm']['utm_source'],
             'utm_campaign'      => $attributionData['utm']['utm_campaign'],
             'utm_medium'        => $attributionData['utm']['utm_medium'],
@@ -243,7 +251,7 @@ class CaptureAttributionDataMiddleware
             'referral'          => $attributionData['referral'],
             'created_at'        => @$attributionData['created_at'] ?: date('Y-m-d H:i:s'),
             'updated_at'        => @$attributionData['updated_at'] ?: date('Y-m-d H:i:s'),
-        ], $attributionData['custom']));
+        ], $attributionData['custom'], $user));
 
         return $visit->id;
     }
@@ -276,13 +284,10 @@ class CaptureAttributionDataMiddleware
         $blacklist = (array)config('footprints.landing_page_blacklist');
 
         if ($landing_page) {
-            
             $k = array_search($landing_page, $blacklist);
 
             return $k === false ? false : true;
-        }
-        else {
-
+        } else {
             return $blacklist;
         }
     }
