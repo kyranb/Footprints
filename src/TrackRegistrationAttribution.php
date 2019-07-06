@@ -2,7 +2,9 @@
 
 namespace Kyranb\Footprints;
 
+use Cookie;
 use Illuminate\Database\Eloquent\Model;
+use Kyranb\Footprints\Jobs\AssignPreviousVisits;
 
 /**
  * Class TrackRegistrationAttribution.
@@ -32,15 +34,28 @@ trait TrackRegistrationAttribution
     }
 
     /**
+     *
+     * @return
+     */
+    public function assignPreviousVisitsJob()
+    {
+        dispatch(new AssignPreviousVisits(new Visit, $this->id));
+    }
+
+    /**
      * Sync visits from the logged in user before they registered.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function unassignedPreviousVisits()
     {
-        return Visit::unassignedPreviousVisits()->update([
-            config('footprints.column_name') => $this->getKey(),
-        ]);
+        $cookie = Cookie::get(config('footprints.cookie_name'));
+        $id = $this->id;
+        return \Queue::push(function ($job) use ($cookie, $id) {
+            Visit::unassignedPreviousVisits($cookie)->update([
+                config('footprints.column_name') => $id,
+            ]);
+            $job->delete();
+        });
     }
 
     /**
