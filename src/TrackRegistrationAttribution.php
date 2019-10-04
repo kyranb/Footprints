@@ -19,7 +19,7 @@ trait TrackRegistrationAttribution
 
         // Add an observer that upon registration will automatically sync up prior visits.
         static::created(function (Model $model) {
-            $model->unassignedPreviousVisits();
+            $model->assignPreviousVisits();
         });
     }
 
@@ -34,28 +34,20 @@ trait TrackRegistrationAttribution
     }
 
     /**
-     *
-     * @return
-     */
-    public function assignPreviousVisitsJob()
-    {
-        dispatch(new AssignPreviousVisits(new Visit, $this->id));
-    }
-
-    /**
      * Sync visits from the logged in user before they registered.
      *
      */
-    public function unassignedPreviousVisits()
+    public function assignPreviousVisits()
     {
         $cookie = Cookie::get(config('footprints.cookie_name'));
-        $id = $this->id;
-        return \Queue::push(function ($job) use ($cookie, $id) {
-            Visit::unassignedPreviousVisits($cookie)->update([
-                config('footprints.column_name') => $id,
-            ]);
-            $job->delete();
-        });
+        $job = new AssignPreviousVisits($cookie, $this->id);
+
+        if (config('footprints.async') == true) {
+            dispatch($job);
+        } else {
+            $job->handle();
+        }
+
     }
 
     /**
