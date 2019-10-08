@@ -2,10 +2,11 @@
 
 namespace Kyranb\Footprints\Middleware;
 
-use Auth;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Kyranb\Footprints\Visit;
+use Kyranb\Footprints\Jobs\TrackVisit;
 
 class CaptureAttributionDataMiddleware
 {
@@ -57,10 +58,14 @@ class CaptureAttributionDataMiddleware
         $attributionData = $this->captureAttributionData();
         $cookieToken = $this->findOrCreateTrackingCookieToken();
 
+        $attributionData['created_at'] = date('Y-m-d H:i:s');
+        $attributionData['updated_at'] = date('Y-m-d H:i:s');
+
+        $job = new TrackVisit($attributionData, $cookieToken);
         if (config('footprints.async') == true) {
-            $this->asyncTrackVisit($attributionData, $cookieToken);
+            dispatch($job);
         } else {
-            $this->trackVisit($attributionData, $cookieToken);
+            $job->handle();
         }
 
         return $this->response;
@@ -203,57 +208,6 @@ class CaptureAttributionDataMiddleware
     protected function captureReferral()
     {
         return $this->request->input('ref');
-    }
-
-    /**
-     * @param array $attributionData
-     * @param string $cookieToken
-     *
-     * @return void
-     */
-    protected function asyncTrackVisit($attributionData, $cookieToken)
-    {
-        $attributionData['created_at'] = date('Y-m-d H:i:s');
-        $attributionData['updated_at'] = date('Y-m-d H:i:s');
-
-        \Queue::push(function ($job) use ($attributionData, $cookieToken) {
-            CaptureAttributionDataMiddleware::trackVisit($attributionData, $cookieToken);
-
-            $job->delete();
-        });
-    }
-
-    /**
-     * @param array $attributionData
-     * @param string $cookieToken
-     *
-     * @return int $id The id of the visit in the database
-     */
-    public static function trackVisit($attributionData, $cookieToken)
-    {
-        $user = [];
-        $user[config('footprints.column_name')] = Auth::user() ? Auth::user()->id : null;
-
-        $visit = Visit::create(array_merge([
-
-            'cookie_token'      => $cookieToken,
-            'landing_domain'    => $attributionData['landing_domain'],
-            'landing_page'      => $attributionData['landing_page'],
-            'landing_params'    => $attributionData['landing_params'],
-            'referrer_domain'   => $attributionData['referrer']['referrer_domain'],
-            'referrer_url'      => $attributionData['referrer']['referrer_url'],
-            'gclid'             => $attributionData['gclid'],
-            'utm_source'        => $attributionData['utm']['utm_source'],
-            'utm_campaign'      => $attributionData['utm']['utm_campaign'],
-            'utm_medium'        => $attributionData['utm']['utm_medium'],
-            'utm_term'          => $attributionData['utm']['utm_term'],
-            'utm_content'       => $attributionData['utm']['utm_content'],
-            'referral'          => $attributionData['referral'],
-            'created_at'        => @$attributionData['created_at'] ?: date('Y-m-d H:i:s'),
-            'updated_at'        => @$attributionData['updated_at'] ?: date('Y-m-d H:i:s'),
-        ], $attributionData['custom'], $user));
-
-        return $visit->id;
     }
 
     /**
