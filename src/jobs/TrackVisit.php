@@ -26,7 +26,6 @@ class TrackVisit implements ShouldQueue
         $user[config('footprints.column_name')] = Auth::user() ? Auth::user()->id : null;
 
         $visit = Visit::create(array_merge([
-
             'cookie_token'      => $this->cookieToken,
             'landing_domain'    => $this->attributionData['landing_domain'],
             'landing_page'      => $this->attributionData['landing_page'],

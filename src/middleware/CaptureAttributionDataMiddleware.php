@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Kyranb\Footprints\Visit;
 use Kyranb\Footprints\Jobs\TrackVisit;
+use Illuminate\Support\Str;
 
 class CaptureAttributionDataMiddleware
 {
@@ -215,7 +216,7 @@ class CaptureAttributionDataMiddleware
      */
     protected function findOrCreateTrackingCookieToken()
     {
-        $cookieToken = str_random(40);
+        $cookieToken = Str::random(40);
 
         if ($this->request->hasCookie(config('footprints.cookie_name'))) {
             $cookieToken = $this->request->cookie(config('footprints.cookie_name'));
