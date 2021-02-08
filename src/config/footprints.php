@@ -64,6 +64,31 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Tracking Filter
+    |--------------------------------------------------------------------------
+    |
+    | This class is responsible for determining if a request should be logged
+    | or not. Setting this to another implementation makes it possible to
+    | customize the logic. Note that the class must implement the
+    | TrackingFilterInterface.
+    |
+    */
+    'tracking_filter' => \Kyranb\Footprints\TrackingFilter::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tracking Logger
+    |--------------------------------------------------------------------------
+    |
+    | This class is responsible for logging the request. Setting this to
+    | another implementation makes it possible to customize the logic. Note
+    | that the class must implement the TrackingLoggerInterface.
+    |
+    */
+    'tracking_logger' => \Kyranb\Footprints\TrackingLogger::class,
+
+    /*
+    |--------------------------------------------------------------------------
     | Attribution Duration
     |--------------------------------------------------------------------------
     |
