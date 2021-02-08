@@ -1,2 +1,14 @@
-vendor
+/.idea
+/build
+/coverage
+/node_modules
+/vendor
 .php_cs.cache
+.phpunit.result.cache
+.DS_Store
+Thumbs.db
+composer.phar
+composer.lock
+package-lock.json
+phpunit.xml
+yarn-error.log
