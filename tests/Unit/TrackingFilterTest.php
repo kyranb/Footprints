@@ -1,8 +1,10 @@
 <?php
 
-namespace Kyranb\Footprints\tests\Unit;
+namespace Kyranb\Footprints\Tests\Unit;
 
-class TrackingFilterTest
+use Kyranb\Footprints\Tests\TestCase;
+
+class TrackingFilterTest extends TestCase
 {
     public function test_disabled_for_post_requests()
     {

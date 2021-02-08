@@ -1,13 +1,14 @@
 <?php
 
-namespace Kyranb\Footprints\tests\Unit\Middleware;
+namespace Kyranb\Footprints\Tests\Unit\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware;
+use Kyranb\Footprints\Tests\TestCase;
 use Kyranb\Footprints\TrackingFilterInterface;
 use Kyranb\Footprints\TrackingLoggerInterface;
-use PHPUnit\Framework\TestCase;
+
 
 class CaptureAttributionDataMiddlewareTest extends TestCase
 {

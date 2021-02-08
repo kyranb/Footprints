@@ -7,7 +7,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Kyranb\Footprints\TrackingFilterInterface;
 use Kyranb\Footprints\TrackingLoggerInterface;
-use Illuminate\Support\Str;
 
 class CaptureAttributionDataMiddleware
 {

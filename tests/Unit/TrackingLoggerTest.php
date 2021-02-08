@@ -1,8 +1,10 @@
 <?php
 
-namespace Kyranb\Footprints\tests\Unit;
+namespace Kyranb\Footprints\Tests\Unit;
 
-class TrackingLoggerTest
+use Kyranb\Footprints\Tests\TestCase;
+
+class TrackingLoggerTest extends TestCase
 {
     public function test_logging_job_handled_async()
     {
