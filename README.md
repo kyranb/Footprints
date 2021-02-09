@@ -23,8 +23,7 @@ Via Composer
 ``` bash
 $ composer require kyranb/footprints
 ```
-
-Add the service provider and (optionally) alias to their relative arrays in config/app.php:
+In Laravel 5.5 and up, the package will automatically register the service provider and facade but for Laravel versions below 5.5 add the service provider and (optionally) alias to their relative arrays in `config/app.php`:
 
 ``` php
 
@@ -48,21 +47,23 @@ Publish the config and migration files:
 php artisan vendor:publish --provider="Kyranb\Footprints\FootprintsServiceProvider"
 ```
 
-Add the ```TrackRegistrationAttribution``` trait to the model you wish to track attributions for. For example:
+The model where registration should be tracked (usually the Eloquent model `\App\Models\User`) must implement the `TrackableInterface` and tracking is automatically handled by simply using the `TrackRegistrationAttribution` trait.
 
-
+An implementation example can be seen here:
 
 ```php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Kyranb\Footprints\TrackableInterface;
 use Kyranb\Footprints\TrackRegistrationAttribution;
 
-class User extends Model
+class User extends Model implements TrackableInterface // <-- Added
 {
-    use Authenticatable, TrackRegistrationAttribution;
+    use Authenticatable;
+    use TrackRegistrationAttribution; // <-- Added 
 
     /**
      * The database table used by the model.
@@ -84,7 +85,7 @@ connection name (optional - if you need a separated tracking database):
 
 model name:
 
-``` 'model' => 'App\User' ```
+``` 'model' => 'App\Models\User' ```
 
 authentication guard:
 
@@ -187,7 +188,9 @@ $user->finalAttributionData();
 ### 2.x => 3.x
 Version 3.x of this package contains a few breaking changes that must be addressed if upgrading from earlier versions.
 - Add field `ip`' as a `nullable` `string` to the footprints table (table name configured in `config('footprints.table_name')`)
-- (optional | recommended) Publish the updated configuration file: `php artisan vendor:publish --provider="Kyranb\Footprints\FootprintsServiceProvider" --tag=config --force`  
+- Implement `TrackableInterface` on any models where the tracking should be tracked (usually the Eloquent model `User`)
+- (optional | recommended) Publish the updated configuration file: `php artisan vendor:publish --provider="Kyranb\Footprints\FootprintsServiceProvider" --tag=config --force`
+- If any modifications have been made to `TrackRegistrationAttribution` please consult the updated version to ensure proper compatability  
 
 ## Change log
 
