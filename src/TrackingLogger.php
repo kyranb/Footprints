@@ -4,6 +4,7 @@ namespace Kyranb\Footprints;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Kyranb\Footprints\Jobs\TrackVisit;
 
 class TrackingLogger implements TrackingLoggerInterface
@@ -31,6 +32,9 @@ class TrackingLogger implements TrackingLoggerInterface
      */
     public function track(Request $request, Response $response)
     {
+        $this->request = $request;
+        $this->response = $response;
+
         $attributionData = $this->captureAttributionData();
         $cookieToken = $this->findOrCreateTrackingCookieToken();
 
