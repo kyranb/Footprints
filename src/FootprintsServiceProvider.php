@@ -25,7 +25,7 @@ class FootprintsServiceProvider extends ServiceProvider
         // Publish config files
         $this->publishes([
             realpath(__DIR__.'/config/footprints.php') => config_path('footprints.php'),
-        ]);
+        ], 'config');
     }
 
     /**

@@ -182,6 +182,13 @@ $user = User::find(1);
 $user->finalAttributionData();
 ```
 
+## Upgrading
+
+### 2.x => 3.x
+Version 3.x of this package contains a few breaking changes that must be addressed if upgrading from earlier versions.
+- Add field `ip`' as a `nullable` `string` to the footprints table (table name configured in `config('footprints.table_name')`)
+- (optional | recommended) Publish the updated configuration file: `php artisan vendor:publish --provider="Kyranb\Footprints\FootprintsServiceProvider" --tag=config --force`  
+
 ## Change log
 
 Please see the commit history for more information what has changed recently.

@@ -23,6 +23,7 @@ class CreateFootprintsTable extends Migration
             $table->increments('id');
             $table->integer(config('footprints.column_name'))->unsigned()->nullable();
             $table->string('cookie_token');
+            $table->string('ip')->nullable();
             $table->string('landing_domain');
             $table->string('landing_page');
             $table->string('landing_params')->nullable();
