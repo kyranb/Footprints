@@ -14,19 +14,14 @@ class TrackVisit implements ShouldQueue
     /** @var array */
     protected $attributionData;
 
-    /** @var string */
-    protected $cookieToken;
-
-    public function __construct(array $attributionData, string $cookieToken)
+    public function __construct(array $attributionData)
     {
         $this->attributionData = $attributionData;
-        $this->cookieToken = $cookieToken;
     }
 
     public function handle()
     {
         Visit::create(array_merge([
-            'cookie_token'      => $this->cookieToken,
             config('footprints.column_name') => Auth::user() ? Auth::user()->id : null,
         ], $this->attributionData));
     }

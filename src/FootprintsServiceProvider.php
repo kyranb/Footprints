@@ -3,7 +3,9 @@
 namespace Kyranb\Footprints;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class FootprintsServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,17 @@ class FootprintsServiceProvider extends ServiceProvider
                 __DIR__ . '/database/migrations/migrations.stub' => database_path('/migrations/' . date('Y_m_d_His') . '_create_footprints_table.php'),
             ], 'migrations');
         }
+    }
+
+    protected function bootMacros()
+    {
+        Request::macro('footprint', function () {
+            if ($this->hasCookie(config('footprints.cookie_name'))) {
+                return $this->cookie(config('footprints.cookie_name'));
+            }
+
+            return $this->fingerprint();
+        });
     }
 
     /**
