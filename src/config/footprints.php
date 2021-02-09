@@ -30,7 +30,7 @@ return [
     | The model to track attribution events for.
     |
     */
-    'model' => 'App\User',
+    'model' => 'App\Models\User',
 
     /*
     |--------------------------------------------------------------------------

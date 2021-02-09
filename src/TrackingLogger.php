@@ -38,9 +38,6 @@ class TrackingLogger implements TrackingLoggerInterface
         $attributionData = $this->captureAttributionData();
         $cookieToken = $this->findOrCreateTrackingCookieToken();
 
-        $attributionData['created_at'] = date('Y-m-d H:i:s');
-        $attributionData['updated_at'] = date('Y-m-d H:i:s');
-
         $job = new TrackVisit($attributionData, $cookieToken);
         if (config('footprints.async') == true) {
             dispatch($job);
@@ -56,17 +53,19 @@ class TrackingLogger implements TrackingLoggerInterface
      */
     protected function captureAttributionData()
     {
-        return [
-            'ip'                => $this->captureIp(),
-            'landing_domain'    => $this->captureLandingDomain(),
-            'landing_page'      => $this->captureLandingPage(),
-            'landing_params'    => $this->captureLandingParams(),
-            'referrer'          => $this->captureReferrer(),
-            'gclid'             => $this->captureGCLID(),
-            'utm'               => $this->captureUTM(),
-            'referral'          => $this->captureReferral(),
-            'custom'            => $this->getCustomParameter(),
-        ];
+        return array_merge(
+            [
+                'ip'                => $this->captureIp(),
+                'landing_domain'    => $this->captureLandingDomain(),
+                'landing_page'      => $this->captureLandingPage(),
+                'landing_params'    => $this->captureLandingParams(),
+                'referral'          => $this->captureReferral(),
+                'gclid'             => $this->captureGCLID(),
+            ],
+            $this->captureUTM(),
+            $this->captureReferrer(),
+            $this->getCustomParameter()
+        );
     }
 
     /**
