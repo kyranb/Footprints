@@ -4,28 +4,24 @@ namespace Kyranb\Footprints\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Cookie;
-use Kyranb\Footprints\Visit;
+use Illuminate\Http\Request;
+use Kyranb\Footprints\TrackableInterface;
 
 class AssignPreviousVisits implements ShouldQueue
 {
     use Queueable;
 
-    private $cookie;
-    private $id;
+    private $request;
+    private $trackable;
 
-    public function __construct($cookie, $id)
+    public function __construct(Request $request, TrackableInterface $trackable)
     {
-        $this->cookie = $cookie;
-        $this->id = $id;
+        $this->request = $request;
+        $this->trackable = $trackable;
     }
 
     public function handle()
     {
-        Visit::unassignedPreviousVisits($this->cookie)->update(
-            [
-                config('footprints.column_name') => $this->id
-            ]
-        );
+        $this->trackable->trackRegistration($this->request);
     }
 }

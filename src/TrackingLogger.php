@@ -4,7 +4,7 @@ namespace Kyranb\Footprints;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use Kyranb\Footprints\Visit;
+use Illuminate\Support\Str;
 use Kyranb\Footprints\Jobs\TrackVisit;
 
 class TrackingLogger implements TrackingLoggerInterface
@@ -32,11 +32,11 @@ class TrackingLogger implements TrackingLoggerInterface
      */
     public function track(Request $request, Response $response)
     {
+        $this->request = $request;
+        $this->response = $response;
+
         $attributionData = $this->captureAttributionData();
         $cookieToken = $this->findOrCreateTrackingCookieToken();
-
-        $attributionData['created_at'] = date('Y-m-d H:i:s');
-        $attributionData['updated_at'] = date('Y-m-d H:i:s');
 
         $job = new TrackVisit($attributionData, $cookieToken);
         if (config('footprints.async') == true) {
@@ -53,18 +53,19 @@ class TrackingLogger implements TrackingLoggerInterface
      */
     protected function captureAttributionData()
     {
-        $attributionData = [];
-
-        $attributionData['landing_domain']  = $this->captureLandingDomain();
-        $attributionData['landing_page']    = $this->captureLandingPage();
-        $attributionData['landing_params']  = $this->captureLandingParams();
-        $attributionData['referrer']        = $this->captureReferrer();
-        $attributionData['gclid']           = $this->captureGCLID();
-        $attributionData['utm']             = $this->captureUTM();
-        $attributionData['referral']        = $this->captureReferral();
-        $attributionData['custom']          = $this->getCustomParameter();
-
-        return $attributionData;
+        return array_merge(
+            [
+                'ip'                => $this->captureIp(),
+                'landing_domain'    => $this->captureLandingDomain(),
+                'landing_page'      => $this->captureLandingPage(),
+                'landing_params'    => $this->captureLandingParams(),
+                'referral'          => $this->captureReferral(),
+                'gclid'             => $this->captureGCLID(),
+            ],
+            $this->captureUTM(),
+            $this->captureReferrer(),
+            $this->getCustomParameter()
+        );
     }
 
     /**
@@ -81,6 +82,18 @@ class TrackingLogger implements TrackingLoggerInterface
         }
 
         return $arr;
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function captureIp()
+    {
+        if (! config('footprints.attribution_ip')) {
+            return null;
+        }
+
+        return $this->request->ip();
     }
 
     /**
