@@ -56,18 +56,17 @@ class TrackingLogger implements TrackingLoggerInterface
      */
     protected function captureAttributionData()
     {
-        $attributionData = [];
-
-        $attributionData['landing_domain']  = $this->captureLandingDomain();
-        $attributionData['landing_page']    = $this->captureLandingPage();
-        $attributionData['landing_params']  = $this->captureLandingParams();
-        $attributionData['referrer']        = $this->captureReferrer();
-        $attributionData['gclid']           = $this->captureGCLID();
-        $attributionData['utm']             = $this->captureUTM();
-        $attributionData['referral']        = $this->captureReferral();
-        $attributionData['custom']          = $this->getCustomParameter();
-
-        return $attributionData;
+        return [
+            'ip'                => $this->captureIp(),
+            'landing_domain'    => $this->captureLandingDomain(),
+            'landing_page'      => $this->captureLandingPage(),
+            'landing_params'    => $this->captureLandingParams(),
+            'referrer'          => $this->captureReferrer(),
+            'gclid'             => $this->captureGCLID(),
+            'utm'               => $this->captureUTM(),
+            'referral'          => $this->captureReferral(),
+            'custom'            => $this->getCustomParameter(),
+        ];
     }
 
     /**
@@ -84,6 +83,18 @@ class TrackingLogger implements TrackingLoggerInterface
         }
 
         return $arr;
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function captureIp()
+    {
+        if (! config('footprints.attribution_ip')) {
+            return null;
+        }
+
+        return $this->request->ip();
     }
 
     /**

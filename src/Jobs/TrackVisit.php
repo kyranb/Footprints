@@ -27,6 +27,7 @@ class TrackVisit implements ShouldQueue
 
         $visit = Visit::create(array_merge([
             'cookie_token'      => $this->cookieToken,
+            'ip'                => $this->attributionData['ip'],
             'landing_domain'    => $this->attributionData['landing_domain'],
             'landing_page'      => $this->attributionData['landing_page'],
             'landing_params'    => $this->attributionData['landing_params'],
