@@ -4,7 +4,6 @@ namespace Kyranb\Footprints;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Kyranb\Footprints\Facades\FootprintsFacade;
 
 class FootprintsServiceProvider extends ServiceProvider
 {
@@ -61,6 +60,14 @@ class FootprintsServiceProvider extends ServiceProvider
             $loader = AliasLoader::getInstance();
 
             $loader->alias('Footprints', FootprintsFacade::class);
+        });
+
+        $this->app->bind(TrackingFilterInterface::class, function ($app) {
+            return $app->make(config('footprints.tracking_filter'));
+        });
+
+        $this->app->bind(TrackingLoggerInterface::class, function ($app) {
+            return $app->make(config('footprints.tracking_logger'));
         });
     }
 }
