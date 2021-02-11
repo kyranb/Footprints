@@ -22,7 +22,7 @@ class TrackingLogger implements TrackingLoggerInterface
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Request
      */
-    public function track(Request $request)
+    public function track(Request $request): Request
     {
         $this->request = $request;
 

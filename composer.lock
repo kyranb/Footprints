@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e114fdde34d1304ddcb2ba92201f83d",
+    "content-hash": "e0510e1a158fc422f647c4294e5740a5",
     "packages": [
         {
             "name": "brick/math",
@@ -434,16 +434,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.26.1",
+            "version": "v8.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "275c78c97e007e4a9d771d4d1caa1c77ebfdcf94"
+                "reference": "a6680d98f9dadaa363aa7d5218517a08706cee64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/275c78c97e007e4a9d771d4d1caa1c77ebfdcf94",
-                "reference": "275c78c97e007e4a9d771d4d1caa1c77ebfdcf94",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a6680d98f9dadaa363aa7d5218517a08706cee64",
+                "reference": "a6680d98f9dadaa363aa7d5218517a08706cee64",
                 "shasum": ""
             },
             "require": {
@@ -598,7 +598,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-02-02T14:07:24+00:00"
+            "time": "2021-02-09T15:14:54+00:00"
         },
         {
             "name": "league/commonmark",
@@ -950,16 +950,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.44.0",
+            "version": "2.45.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd"
+                "reference": "e2ba3174ce869da1713c38340dbb36572dfacd5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd",
-                "reference": "e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e2ba3174ce869da1713c38340dbb36572dfacd5a",
+                "reference": "e2ba3174ce869da1713c38340dbb36572dfacd5a",
                 "shasum": ""
             },
             "require": {
@@ -1039,7 +1039,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-26T20:46:41+00:00"
+            "time": "2021-02-07T21:35:59+00:00"
         },
         {
             "name": "opis/closure",
@@ -4813,22 +4813,22 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v6.11.0",
+            "version": "v6.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "c6acd7bcf2c2fe10802bac678d9a020fab4e761b"
+                "reference": "3c52215b9c23b36dc91ac803976f62a2931a3fc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/c6acd7bcf2c2fe10802bac678d9a020fab4e761b",
-                "reference": "c6acd7bcf2c2fe10802bac678d9a020fab4e761b",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/3c52215b9c23b36dc91ac803976f62a2931a3fc4",
+                "reference": "3c52215b9c23b36dc91ac803976f62a2931a3fc4",
                 "shasum": ""
             },
             "require": {
                 "laravel/framework": "^8.25",
                 "mockery/mockery": "^1.4.2",
-                "orchestra/testbench-core": "^6.13",
+                "orchestra/testbench-core": "^6.15.1",
                 "php": "^7.3 || ^8.0",
                 "phpunit/phpunit": "^8.4 || ^9.3",
                 "spatie/laravel-ray": "^1.9.3"
@@ -4862,7 +4862,7 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v6.11.0"
+                "source": "https://github.com/orchestral/testbench/tree/v6.12.0"
             },
             "funding": [
                 {
@@ -4874,20 +4874,20 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2021-01-30T04:14:29+00:00"
+            "time": "2021-02-09T13:57:42+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v6.14.0",
+            "version": "v6.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "1c2eb8c21e0be762adcc4b8ca5d70b4b349c092c"
+                "reference": "3126b3f6ff4338f588c02ea5bd30398444dcb817"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/1c2eb8c21e0be762adcc4b8ca5d70b4b349c092c",
-                "reference": "1c2eb8c21e0be762adcc4b8ca5d70b4b349c092c",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/3126b3f6ff4338f588c02ea5bd30398444dcb817",
+                "reference": "3126b3f6ff4338f588c02ea5bd30398444dcb817",
                 "shasum": ""
             },
             "require": {
@@ -4964,7 +4964,7 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2021-02-07T12:27:34+00:00"
+            "time": "2021-02-09T13:59:12+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -6903,16 +6903,16 @@
         },
         {
             "name": "spatie/laravel-ray",
-            "version": "1.12.3",
+            "version": "1.12.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ray.git",
-                "reference": "d92c6beee765a7b1d41daa5ea69a2b175d3745de"
+                "reference": "9774088a826cc5aaa2710720667047852b2a5538"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ray/zipball/d92c6beee765a7b1d41daa5ea69a2b175d3745de",
-                "reference": "d92c6beee765a7b1d41daa5ea69a2b175d3745de",
+                "url": "https://api.github.com/repos/spatie/laravel-ray/zipball/9774088a826cc5aaa2710720667047852b2a5538",
+                "reference": "9774088a826cc5aaa2710720667047852b2a5538",
                 "shasum": ""
             },
             "require": {
@@ -6967,7 +6967,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-ray/issues",
-                "source": "https://github.com/spatie/laravel-ray/tree/1.12.3"
+                "source": "https://github.com/spatie/laravel-ray/tree/1.12.6"
             },
             "funding": [
                 {
@@ -6979,7 +6979,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-02-08T14:21:24+00:00"
+            "time": "2021-02-10T19:13:17+00:00"
         },
         {
             "name": "spatie/macroable",
@@ -7033,16 +7033,16 @@
         },
         {
             "name": "spatie/ray",
-            "version": "1.19.1",
+            "version": "1.19.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ray.git",
-                "reference": "3c2169e04fac65478cfb79d2dabedb1f7505abb5"
+                "reference": "fcc54e2ecd00a935fc5d79d8b7f8523a4252f9f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ray/zipball/3c2169e04fac65478cfb79d2dabedb1f7505abb5",
-                "reference": "3c2169e04fac65478cfb79d2dabedb1f7505abb5",
+                "url": "https://api.github.com/repos/spatie/ray/zipball/fcc54e2ecd00a935fc5d79d8b7f8523a4252f9f6",
+                "reference": "fcc54e2ecd00a935fc5d79d8b7f8523a4252f9f6",
                 "shasum": ""
             },
             "require": {
@@ -7092,7 +7092,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/ray/issues",
-                "source": "https://github.com/spatie/ray/tree/1.19.1"
+                "source": "https://github.com/spatie/ray/tree/1.19.4"
             },
             "funding": [
                 {
@@ -7104,7 +7104,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-02-08T08:07:45+00:00"
+            "time": "2021-02-11T08:10:15+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -7702,10 +7702,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~5.5|7.*"
+        "php": "^7.4|^8.0"
     },
-    "platform-dev": {
-        "php": "^7.4"
-    },
+    "platform-dev": [],
     "plugin-api-version": "2.0.0"
 }
