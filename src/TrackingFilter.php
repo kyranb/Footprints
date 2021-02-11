@@ -2,7 +2,6 @@
 
 namespace Kyranb\Footprints;
 
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,23 +15,14 @@ class TrackingFilter implements TrackingFilterInterface
     protected $request;
 
     /**
-     * The Request instance.
-     *
-     * @var \Illuminate\Http\Response
-     */
-    protected $response;
-
-    /**
      * Determine whether or not the request should be tracked.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Http\Response $response
      * @return bool
      */
-    public function shouldTrack(Request $request, Response $response)
+    public function shouldTrack(Request $request)
     {
         $this->request = $request;
-        $this->response = $response;
 
         //Only track get requests
         if (! $this->request->isMethod('get')) {

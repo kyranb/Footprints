@@ -89,6 +89,34 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Footprinter
+    |--------------------------------------------------------------------------
+    |
+    | This class is responsible for generatin a digital footprint (string) of
+    | the request. The default implementation will check for the presence of
+    | a footprint cookie and return this. If no cookie is found then it returns
+    | the requests fingerprint - se Laravel Docs for this method.
+    |
+    */
+    'footprinter' => \Kyranb\Footprints\Footprinter::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Footprinting uniqueness
+    |--------------------------------------------------------------------------
+    |
+    | If this setting is disabled then a semi-unique footprint will be generated
+    | for the request. The purpose of this is to anable tracking accross,
+    | browsers or where cookies might be blocked.
+    |
+    | Note that enabling this could cause request from different users using
+    | the same ip to be matched.
+    |
+    */
+    'uniqueness' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Attribution Duration
     |--------------------------------------------------------------------------
     |

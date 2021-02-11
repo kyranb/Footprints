@@ -3,7 +3,10 @@
 namespace Kyranb\Footprints;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class FootprintsServiceProvider extends ServiceProvider
 {
@@ -14,6 +17,7 @@ class FootprintsServiceProvider extends ServiceProvider
     {
         $this->publishConfig();
         $this->publishMigration();
+        $this->bootMacros();
     }
 
     /**
@@ -38,6 +42,13 @@ class FootprintsServiceProvider extends ServiceProvider
                 __DIR__ . '/database/migrations/migrations.stub' => database_path('/migrations/' . date('Y_m_d_His') . '_create_footprints_table.php'),
             ], 'migrations');
         }
+    }
+
+    protected function bootMacros()
+    {
+        Request::macro('footprint', function () {
+            return App::make(FootprinterInterface::class)->footprint($this);
+        });
     }
 
     /**
@@ -68,6 +79,10 @@ class FootprintsServiceProvider extends ServiceProvider
 
         $this->app->bind(TrackingLoggerInterface::class, function ($app) {
             return $app->make(config('footprints.tracking_logger'));
+        });
+
+        $this->app->singleton(FootprinterInterface::class, function ($app) {
+            return $app->make(config('footprints.footprinter'));
         });
     }
 }
