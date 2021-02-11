@@ -2,8 +2,8 @@
 
 namespace Kyranb\Footprints;
 
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use Kyranb\Footprints\Jobs\TrackVisit;
 
@@ -17,35 +17,23 @@ class TrackingLogger implements TrackingLoggerInterface
     protected $request;
 
     /**
-     * The Request instance.
-     *
-     * @var \Illuminate\Http\Response
-     */
-    protected $response;
-
-    /**
      * Determine whether or not the request should be tracked.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Http\Response $response
-     * @return mixed
+     * @return \Illuminate\Http\Request
      */
-    public function track(Request $request, Response $response)
+    public function track(Request $request)
     {
         $this->request = $request;
-        $this->response = $response;
 
-        $attributionData = $this->captureAttributionData();
-        $cookieToken = $this->findOrCreateTrackingCookieToken();
-
-        $job = new TrackVisit($attributionData, $cookieToken);
+        $job = new TrackVisit($this->captureAttributionData());
         if (config('footprints.async') == true) {
             dispatch($job);
         } else {
             $job->handle();
         }
 
-        return $this->response;
+        return $this->request;
     }
 
     /**
@@ -55,6 +43,7 @@ class TrackingLogger implements TrackingLoggerInterface
     {
         return array_merge(
             [
+                'footprint'         => $this->request->footprint(),
                 'ip'                => $this->captureIp(),
                 'landing_domain'    => $this->captureLandingDomain(),
                 'landing_page'      => $this->captureLandingPage(),
@@ -170,23 +159,5 @@ class TrackingLogger implements TrackingLoggerInterface
     protected function captureReferral()
     {
         return $this->request->input('ref');
-    }
-
-    /**
-     * @return string $cookieToken
-     */
-    protected function findOrCreateTrackingCookieToken()
-    {
-        $cookieToken = Str::random(40);
-
-        if ($this->request->hasCookie(config('footprints.cookie_name'))) {
-            $cookieToken = $this->request->cookie(config('footprints.cookie_name'));
-        }
-
-        if (method_exists($this->response, "withCookie")) {
-            $this->response->withCookie(cookie(config('footprints.cookie_name'), $cookieToken, config('footprints.attribution_duration'), null, config('footprints.cookie_domain')));
-        }
-
-        return $cookieToken;
     }
 }

@@ -8,11 +8,10 @@ use Illuminate\Http\Request;
 interface TrackingLoggerInterface
 {
     /**
-     * Determine whether or not the request should be tracked.
+     * Track the request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Http\Response $response
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Request
      */
-    public function track(Request $request, Response $response);
+    public function track(Request $request);
 }

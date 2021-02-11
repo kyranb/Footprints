@@ -67,9 +67,9 @@ class Visit extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopePreviousVisits($query, $cookie)
+    public function scopePreviousVisits($query, $footprint)
     {
-        return $query->where('cookie_token', $cookie);
+        return $query->where('footprint', $footprint);
     }
 
     /**
@@ -77,8 +77,8 @@ class Visit extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeUnassignedPreviousVisits($query, $cookie)
+    public function scopeUnassignedPreviousVisits($query, $footprint)
     {
-        return $query->whereNull(config('footprints.column_name'))->where('cookie_token', $cookie);
+        return $query->whereNull(config('footprints.column_name'))->where('footprint', $footprint);
     }
 }

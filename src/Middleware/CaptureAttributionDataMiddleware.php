@@ -30,12 +30,10 @@ class CaptureAttributionDataMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $response = $next($request);
-
-        if ($this->filter->shouldTrack($request, $response)) {
-            return $this->logger->track($request, $response);
+        if ($this->filter->shouldTrack($request)) {
+            $request = $this->logger->track($request);
         }
 
-        return $response;
+        return $next($request);
     }
 }

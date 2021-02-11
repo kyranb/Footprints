@@ -54,7 +54,7 @@ trait TrackRegistrationAttribution
      */
     public function trackRegistration(Request $request)
     {
-        Visit::unassignedPreviousVisits($request->cookie(config('footprints.cookie_name')))->update(
+        Visit::unassignedPreviousVisits($request->footprint())->update(
             [
                 config('footprints.column_name') => $this->id,
             ]
