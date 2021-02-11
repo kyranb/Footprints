@@ -158,9 +158,9 @@ Footprints tracks the UTM parameters and HTTP refererers from all requests to yo
 - `TrackingFilter`: Used to determine whether or not a request should be logged
 - `TrackingLogger`: Doest the actual logging of requests to an Eloquent `Visit` model
 - `Footprinter`: Does the "linking" of requests using cookies or if configured falls back to using ip and the `User-agent` header
--  `TrackRegistrationAttributes`: Is used on the Eloquent model that we wish to track registration of (usually the `User` model)
+- `TrackRegistrationAttributes`: Is used on the Eloquent model that we wish to track registration of (usually the `User` model)
 
-For a more technical explenation of the flow, please consult the section [Tracking process in details](#Tracking process in details) below.
+For a more technical explanation of the flow, please consult the section [Tracking process in details](#Tracking process in details) below.
 
 #### What data is tracked for each visit?
 The default configuration tracks the most relevant information
@@ -196,11 +196,11 @@ $user->finalAttributionData();
 ```
 
 ##### Tracking process in details
-First off the `CaptureAttributionDataMiddleware` can be registred globally or on a selected list of routes.
+First off the `CaptureAttributionDataMiddleware` can be registered globally or on a selected list of routes.
 
 Whenever an incomming request passes through the `CaptureAttributionDataMiddleware` middleware then it checks whether or not the request should be tracked using the class `TrackingFilter` (can be changed to any class implementing the `TrackingFilterInterface`) and if the request should be logged `TrackingLogger` will do so (can be changed to any class implementing `TrackingLoggerInterface`).
 
-The `TrackingLogger` is responsible for logging relevant information about the request as a `Vist` record. The most important parameter is the requests "footprint" which is the entity that *should* be the same for multiple requests performed by the same user and hence this is what is used to link different requests.
+The `TrackingLogger` is responsible for logging relevant information about the request as a `Vist` record. The most important parameter is the request's "footprint" which is the entity that *should* be the same for multiple requests performed by the same user and hence this is what is used to link different requests.
 
 Calculating the footprint is done with a request macro which in turn uses a `Footprinter` singleton (can be changed to any class implementing `FootprinterInterface`). It will look for the presence of a `footprints` cookie (configurable) and use that if it exists. If the cookie does not exist then it will create it so that it can be tracked on subsequent requests. It might be desireable for some to implement a custom logic for this but note that it is important that the calculation is a *pure function* meaning that calling this method multiple times with the same request as input should always yield the same result.
 
