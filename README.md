@@ -8,7 +8,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 
 
-Footprints is a simple registration attribution tracking solution for Laravel 5.2+
+Footprints is a simple registration attribution tracking solution for Laravel 7+
 
 > “I know I waste half of my advertising dollars...I just wish I knew which half.” ~ *Henry Procter*.
 
@@ -22,23 +22,6 @@ Via Composer
 
 ``` bash
 $ composer require kyranb/footprints
-```
-In Laravel 5.5 and up, the package will automatically register the service provider and facade but for Laravel versions below 5.5 add the service provider and (optionally) alias to their relative arrays in `config/app.php`:
-
-``` php
-
-    'providers' => [
-        ...
-        Kyranb\Footprints\FootprintsServiceProvider::class,
-    ],
-
-...
-
-    'aliases' => [
-        ...
-        'Footprints'   => Kyranb\Footprints\FootprintsFacade::class,
-    ],
-
 ```
 
 Publish the config and migration files:
