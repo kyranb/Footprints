@@ -47,10 +47,7 @@
         "laravel": {
             "providers": [
                 "Kyranb\\Footprints\\FootprintsServiceProvider"
-            ],
-            "aliases": {
-                "Footprints": "Kyranb\\Footprints\\FootprintsFacade"
-            }
+            ]
         }
     }
 }
