@@ -47,12 +47,26 @@ Publish the config and migration files:
 php artisan vendor:publish --provider="Kyranb\Footprints\FootprintsServiceProvider"
 ```
 
-The model where registration should be tracked (usually the Eloquent model `\App\Models\User`) must implement the `TrackableInterface` and tracking is automatically handled by simply using the `TrackRegistrationAttribution` trait.
-
-An implementation example can be seen here:
+Add the `\Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class` either to a group of routes that should be tracked or as a global middleware in `App\Http\Kernel.php` (after the `EncryptCookie` middleware!) like so:
 
 ```php
+    /**
+     * The application's global HTTP middleware stack.
+     *
+     * These middleware are run during every request to your application.
+     *
+     * @var array
+     */
+    protected $middleware = [
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\EncryptCookies::class,
+        \Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class, // <-- Added
+    ];
+```
 
+Add tracking to the model where registration should be tracked (usually the Eloquent model `\App\Models\User`) by implementing the `TrackableInterface` and using the `TrackRegistrationAttribution` trait like so:
+
+```php
 namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
@@ -73,10 +87,10 @@ class User extends Model implements TrackableInterface // <-- Added
     protected $table = 'users';
 
 }
-
-
 ```
 
+
+#### Configuring
 Go over the configuration file, most notably the model you wish to track:
 
 connection name (optional - if you need a separated tracking database):
@@ -111,22 +125,9 @@ this boolean will allow you to write the tracking data to the db in your queue (
 
 ``` 'async' => true ```
 
-Add the `\Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class` middleware to `App\Http\Kernel.php` after the `EncryptCookie` middleware like so:
+tracking in cases where cookies are disabled can be achieved by disabling the setting:
 
-```php
-    /**
-     * The application's global HTTP middleware stack.
-     *
-     * These middleware are run during every request to your application.
-     *
-     * @var array
-     */
-    protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \App\Http\Middleware\EncryptCookies::class,
-        \Kyranb\Footprints\Middleware\CaptureAttributionDataMiddleware::class,
-    ];
-```
+``` 'uniqueness' => false ```
 
 
 ## Usage

@@ -109,8 +109,8 @@ return [
     | for the request. The purpose of this is to anable tracking accross,
     | browsers or where cookies might be blocked.
     |
-    | Note that enabling this could
-    | cause request from different users using the same ip to be matched.
+    | Note that enabling this could cause request from different users using
+    | the same ip to be matched.
     |
     */
     'uniqueness' => true,
