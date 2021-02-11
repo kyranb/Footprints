@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class Footprinter implements FootprinterInterface
 {
-    protected $request;
+    protected Request $request;
 
     protected string $random;
 
