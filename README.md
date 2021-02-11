@@ -151,7 +151,15 @@ Footprints tracks the UTM parameters and HTTP refererers from all requests to yo
 
 * utm_term = to distinguish different parts of one content; f.e.keyword in Google AdWords
 
+##### And how is it logged?
 
+- `CaptureAttributionDataMiddleware`: Only routes using this middleware can be tracked 
+- `TrackingFilter`: Used to determine whether or not a request should be logged
+- `TrackingLogger`: Doest the actual logging of requests to an Eloquent `Visit` model
+- `Footprinter`: Does the "linking" of requests using cookies or if configured falls back to using ip and the `User-agent` header
+-  `TrackRegistrationAttributes`: Is used on the Eloquent model that we wish to track registration of (usually the `User` model)
+
+For a more technical explenation of the flow, please consult the section [Tracking process in details](#Tracking process in details) below.
 
 #### What data is tracked for each visit?
 The default configuration tracks the most relevant information
@@ -186,7 +194,7 @@ $user = User::find(1);
 $user->finalAttributionData();
 ```
 
-##### Trackng process in details
+##### Tracking process in details
 First off the `CaptureAttributionDataMiddleware` can be registred globally or on a selected list of routes.
 
 Whenever an incomming request passes through the `CaptureAttributionDataMiddleware` middleware then it checks whether or not the request should be tracked using the class `TrackingFilter` (can be changed to any class implementing the `TrackingFilterInterface`) and if the request should be logged `TrackingLogger` will do so (can be changed to any class implementing `TrackingLoggerInterface`).
