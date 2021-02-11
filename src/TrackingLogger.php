@@ -43,7 +43,7 @@ class TrackingLogger implements TrackingLoggerInterface
     {
         return array_merge(
             [
-                'footprint'         => $this->findOrAttachFootprintCookie(),
+                'footprint'         => $this->request->footprint(),
                 'ip'                => $this->captureIp(),
                 'landing_domain'    => $this->captureLandingDomain(),
                 'landing_page'      => $this->captureLandingPage(),
@@ -159,29 +159,5 @@ class TrackingLogger implements TrackingLoggerInterface
     protected function captureReferral()
     {
         return $this->request->input('ref');
-    }
-
-    /**
-     * This will return the footprint cookie if already present in the request and otherwise
-     * add the footprint cookie to the response.
-     *
-     * @return string
-     */
-    protected function findOrAttachFootprintCookie()
-    {
-        if ($this->request->hasCookie(config('footprints.cookie_name'))) {
-            return $this->request->cookie(config('footprints.cookie_name'));
-        }
-
-        // This will add the cookie to the response
-        Cookie::queue(
-            config('footprints.cookie_name'),
-            $footprint = $this->request->footprint(),
-            config('footprints.attribution_duration'),
-            null,
-            config('footprints.cookie_domain')
-        );
-
-        return $footprint;
     }
 }

@@ -4,6 +4,7 @@ namespace Kyranb\Footprints;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -16,6 +17,7 @@ class FootprintsServiceProvider extends ServiceProvider
     {
         $this->publishConfig();
         $this->publishMigration();
+        $this->bootMacros();
     }
 
     /**
@@ -45,11 +47,7 @@ class FootprintsServiceProvider extends ServiceProvider
     protected function bootMacros()
     {
         Request::macro('footprint', function () {
-            if ($this->hasCookie(config('footprints.cookie_name'))) {
-                return $this->cookie(config('footprints.cookie_name'));
-            }
-
-            return $this->fingerprint();
+            return App::make(FootprinterInterface::class)->footprint($this);
         });
     }
 
@@ -81,6 +79,10 @@ class FootprintsServiceProvider extends ServiceProvider
 
         $this->app->bind(TrackingLoggerInterface::class, function ($app) {
             return $app->make(config('footprints.tracking_logger'));
+        });
+
+        $this->app->singleton(FootprinterInterface::class, function ($app) {
+            return $app->make(config('footprints.footprinter'));
         });
     }
 }

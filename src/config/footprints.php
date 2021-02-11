@@ -89,6 +89,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Footprinter
+    |--------------------------------------------------------------------------
+    |
+    | This class is responsible for generatin a digital footprint (string) of
+    | the request. The default implementation will check for the presence of
+    | a footprint cookie and return this. If no cookie is found then it returns
+    | the requests fingerprint - se Laravel Docs for this method.
+    |
+    */
+    'footprinter' => \Kyranb\Footprints\Footprinter::class,
+
+    /*
+    |--------------------------------------------------------------------------
     | Attribution Duration
     |--------------------------------------------------------------------------
     |

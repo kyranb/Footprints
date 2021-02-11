@@ -137,9 +137,9 @@ Footprints tracks the UTM parameters and HTTP refererers from all requests to yo
 
 > UTM parameters (UTM) is a shortcut for Urchin Traffic Monitor. This text tags allow users to track and analyze traffic sources in analytical tools (f.e. Google Analytics). By adding UTM parameters to URLs, you can identify the source and campaigns that send traffic to your website. When a user clicks a referral link / ad or banner, these parameters are sent to Google Analytics (or other analytical tool), so you can see the effectiveness of each campaign in your reports
 
-> ###### Here is example of UTM parameters in a URL: www.wikipedia.org/?utm_source=domain.com&utm_medium=banner&utm_campaign=winter15&utm_content=blue_ad&utm_term=headline_v1
+> Here is example of UTM parameters in a URL: www.wikipedia.org/?utm_source=domain.com&utm_medium=banner&utm_campaign=winter15&utm_content=blue_ad&utm_term=headline_v1
 
-####### There are 5 dimensions of UTM parameters:
+###### There are 5 dimensions of UTM parameters:
 
 * utm_source = name of the source (usually the domain of source website)
 
@@ -154,6 +154,7 @@ Footprints tracks the UTM parameters and HTTP refererers from all requests to yo
 
 
 #### What data is tracked for each visit?
+The default configuration tracks the most relevant information
 
 * `landing_page`
 * `referrer_url`
@@ -164,6 +165,8 @@ Footprints tracks the UTM parameters and HTTP refererers from all requests to yo
 * `utm_term`
 * `utm_content`
 * `created_at` (date of visit)
+
+But the package also makes it easy to the users ip address or bacially any information available from the request object.  
 
 ##### Get all of a user's visits before registering.
 ``` php
@@ -182,6 +185,17 @@ $user->initialAttributionData();
 $user = User::find(1);
 $user->finalAttributionData();
 ```
+
+##### Trackng process in details
+First off the `CaptureAttributionDataMiddleware` can be registred globally or on a selected list of routes.
+
+Whenever an incomming request passes through the `CaptureAttributionDataMiddleware` middleware then it checks whether or not the request should be tracked using the class `TrackingFilter` (can be changed to any class implementing the `TrackingFilterInterface`) and if the request should be logged `TrackingLogger` will do so (can be changed to any class implementing `TrackingLoggerInterface`).
+
+The `TrackingLogger` is responsible for logging relevant information about the request as a `Vist` record. The most important parameter is the requests "footprint" which is the entity that *should* be the same for multiple requests performed by the same user and hence this is what is used to link different requests.
+
+Calculating the footprint is done with a request macro which in turn uses a `Footprinter` singleton (can be changed to any class implementing `FootprinterInterface`). It will look for the presence of a `footprints` cookie (configurable) and use that if it exists. If the cookie does not exist then it will create it so that it can be tracked on subsequent requests. It might be desireable for some to implement a custom logic for this but note that it is important that the calculation is a *pure function* meaning that calling this method multiple times with the same request as input should always yield the same result.
+
+At some point the user signs up (or *any* trackable model is created) which fires the job `AssignPreviousVisits`. This job calculates the footprint of the request and looks for any existing logged `Visit` records and link those to the new user.  
 
 ## Upgrading
 
