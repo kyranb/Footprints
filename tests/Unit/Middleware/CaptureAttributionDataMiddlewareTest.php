@@ -24,8 +24,8 @@ class CaptureAttributionDataMiddlewareTest extends TestCase
 
         $trackingLogger = \Mockery::mock(TrackingLoggerInterface::class);
         $trackingLogger->shouldReceive('track')
-            ->with($request, $response)
-            ->andReturn($response);
+            ->with($request)
+            ->andReturn($request);
 
         $middleware = new CaptureAttributionDataMiddleware($trackingFilter, $trackingLogger);
 

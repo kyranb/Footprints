@@ -66,13 +66,6 @@ class FootprintsServiceProvider extends ServiceProvider
             return new Footprints();
         });
 
-        // Define alias 'Footprints'
-        $this->app->booting(function () {
-            $loader = AliasLoader::getInstance();
-
-            $loader->alias('Footprints', FootprintsFacade::class);
-        });
-
         $this->app->bind(TrackingFilterInterface::class, function ($app) {
             return $app->make(config('footprints.tracking_filter'));
         });

@@ -52,7 +52,7 @@ trait TrackRegistrationAttribution
     /**
      * Assign earlier visits using current request.
      */
-    public function trackRegistration(Request $request)
+    public function trackRegistration(Request $request): void
     {
         Visit::unassignedPreviousVisits($request->footprint())->update(
             [

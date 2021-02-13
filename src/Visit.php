@@ -30,7 +30,6 @@ class Visit extends Model
         'updated_at',
     ];
 
-
     /**
      * Constructor
      * Override constructor to set the table name @ time of instantiation
@@ -49,8 +48,6 @@ class Visit extends Model
             $this->setConnection(config('footprints.connection_name'));
         }
     }
-
-
 
     /**
      * Get the account that owns the visit.

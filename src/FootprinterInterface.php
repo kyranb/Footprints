@@ -15,5 +15,5 @@ interface FootprinterInterface
      * @param \Illuminate\Http\Request $request
      * @return string
      */
-    public function footprint(Request $request);
+    public function footprint(Request $request): string;
 }
