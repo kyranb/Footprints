@@ -2,11 +2,9 @@
 
 namespace Kyranb\Footprints;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 
 class FootprintsServiceProvider extends ServiceProvider
 {
@@ -61,10 +59,6 @@ class FootprintsServiceProvider extends ServiceProvider
             __DIR__ . '/config/footprints.php',
             'footprints'
         );
-
-        $this->app->singleton(Footprints::class, function () {
-            return new Footprints();
-        });
 
         $this->app->bind(TrackingFilterInterface::class, function ($app) {
             return $app->make(config('footprints.tracking_filter'));

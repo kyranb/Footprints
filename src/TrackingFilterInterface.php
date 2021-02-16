@@ -2,7 +2,6 @@
 
 namespace Kyranb\Footprints;
 
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 interface TrackingFilterInterface
