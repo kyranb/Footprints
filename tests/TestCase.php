@@ -5,7 +5,6 @@ namespace Kyranb\Footprints\Tests;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Kyranb\Footprints\FootprintsFacade;
 use Kyranb\Footprints\FootprintsServiceProvider;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
@@ -23,21 +22,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             FootprintsServiceProvider::class,
-        ];
-    }
-
-    /**
-     * Overriding getPackageAliases to load our package alias.
-     *
-     * Mode details at: https://github.com/orchestral/testbench#custom-aliases
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array
-     */
-    protected function getPackageAliases($app)
-    {
-        return [
-            'Ais' => FootprintsFacade::class,
         ];
     }
 

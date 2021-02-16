@@ -11,8 +11,7 @@ class TrackVisit implements ShouldQueue
 {
     use Queueable;
 
-    /** @var array */
-    protected $attributionData;
+    protected array $attributionData;
 
     public function __construct(array $attributionData)
     {

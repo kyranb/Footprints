@@ -8,10 +8,17 @@ use Illuminate\Support\Str;
 
 class Footprinter implements FootprinterInterface
 {
-    protected $request;
+    protected Request $request;
+
+    protected string $random;
+
+    public function __construct()
+    {
+        $this->random = Str::random(20); // Will only be set once during requests since this class is a singleton
+    }
 
     /** @inheritDoc */
-    public function footprint(Request $request)
+    public function footprint(Request $request): string
     {
         $this->request = $request;
 
@@ -45,7 +52,7 @@ class Footprinter implements FootprinterInterface
         return sha1(implode('|', array_filter([
             $this->request->ip(),
             $this->request->header('user-agent'),
-            config('footprints.uniqueness') ? Str::random(20) : null,
+            config('footprints.uniqueness') ? $this->random : null,
         ])));
     }
 }

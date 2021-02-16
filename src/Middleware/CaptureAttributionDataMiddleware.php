@@ -10,9 +10,9 @@ use Kyranb\Footprints\TrackingLoggerInterface;
 
 class CaptureAttributionDataMiddleware
 {
-    protected $filter;
+    protected TrackingFilterInterface $filter;
 
-    protected $logger;
+    protected TrackingLoggerInterface $logger;
 
     public function __construct(TrackingFilterInterface $filter, TrackingLoggerInterface $logger)
     {

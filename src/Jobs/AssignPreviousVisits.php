@@ -11,8 +11,8 @@ class AssignPreviousVisits implements ShouldQueue
 {
     use Queueable;
 
-    private $request;
-    private $trackable;
+    protected Request $request;
+    protected TrackableInterface $trackable;
 
     public function __construct(Request $request, TrackableInterface $trackable)
     {

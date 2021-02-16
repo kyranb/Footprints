@@ -13,5 +13,5 @@ interface TrackingFilterInterface
      * @param \Illuminate\Http\Request $request
      * @return bool
      */
-    public function shouldTrack(Request $request);
+    public function shouldTrack(Request $request): bool;
 }
