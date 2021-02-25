@@ -3,8 +3,6 @@
 namespace Kyranb\Footprints;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Str;
 use Kyranb\Footprints\Jobs\TrackVisit;
 
 class TrackingLogger implements TrackingLoggerInterface

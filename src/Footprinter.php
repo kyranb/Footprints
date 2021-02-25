@@ -51,7 +51,7 @@ class Footprinter implements FootprinterInterface
         // This is highly inspired from the $request->fingerprint() method
         return sha1(implode('|', array_filter([
             $this->request->ip(),
-            $this->request->header('user-agent'),
+            $this->request->header('User-Agent'),
             config('footprints.uniqueness') ? $this->random : null,
         ])));
     }
