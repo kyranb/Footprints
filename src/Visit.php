@@ -8,7 +8,8 @@ class Visit extends Model
 {
 
     /**
-     * The name of the database table
+     * The name of the database table.
+     *
      * @var string
      */
     protected $table = 'visits';
@@ -31,8 +32,7 @@ class Visit extends Model
     ];
 
     /**
-     * Constructor
-     * Override constructor to set the table name @ time of instantiation
+     * Override constructor to set the table name @ time of instantiation.
      *
      * @param array $attributes
      * @return void
@@ -51,6 +51,8 @@ class Visit extends Model
 
     /**
      * Get the account that owns the visit.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account()
     {
