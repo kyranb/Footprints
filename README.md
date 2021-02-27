@@ -158,7 +158,7 @@ The default configuration tracks the most relevant information
 * `utm_content`
 * `created_at` (date of visit)
 
-But the package also makes it easy to the users ip address or bacially any information available from the request object.  
+But the package also makes it easy to the users ip address or basically any information available from the request object.  
 
 ##### Get all of a user's visits before registering.
 ``` php
@@ -178,10 +178,13 @@ $user = User::find(1);
 $user->finalAttributionData();
 ```
 
+##### Events
+The `TrackingLogger` emits an event `RegistrationTracked` once a registration has been processed while it is possible to listen for any visits tracked by simply listening for the [Eloquent Events](https://laravel.com/docs/eloquent#events) on the `Visit` model.
+
 ##### Tracking process in details
 First off the `CaptureAttributionDataMiddleware` can be registered globally or on a selected list of routes.
 
-Whenever an incomming request passes through the `CaptureAttributionDataMiddleware` middleware then it checks whether or not the request should be tracked using the class `TrackingFilter` (can be changed to any class implementing the `TrackingFilterInterface`) and if the request should be logged `TrackingLogger` will do so (can be changed to any class implementing `TrackingLoggerInterface`).
+Whenever an incoming request passes through the `CaptureAttributionDataMiddleware` middleware then it checks whether or not the request should be tracked using the class `TrackingFilter` (can be changed to any class implementing the `TrackingFilterInterface`) and if the request should be logged `TrackingLogger` will do so (can be changed to any class implementing `TrackingLoggerInterface`).
 
 The `TrackingLogger` is responsible for logging relevant information about the request as a `Vist` record. The most important parameter is the request's "footprint" which is the entity that *should* be the same for multiple requests performed by the same user and hence this is what is used to link different requests.
 
