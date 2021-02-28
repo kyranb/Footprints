@@ -196,7 +196,9 @@ At some point the user signs up (or *any* trackable model is created) which fire
 
 ### 2.x => 3.x
 Version 3.x of this package contains a few breaking changes that must be addressed if upgrading from earlier versions.
-- Add field `ip`' as a `nullable` `string` to the footprints table (table name configured in `config('footprints.table_name')`)
+
+- Rename the `cookie_token` column to `footprint`, in the table configured in `config('footprints.table_name')`
+- Add field `ip`' as a `nullable` `string` to the configured footprints table
 - Implement `TrackableInterface` on any models where the tracking should be tracked (usually the Eloquent model `User`)
 - (optional | recommended) Publish the updated configuration file: `php artisan vendor:publish --provider="Kyranb\Footprints\FootprintsServiceProvider" --tag=config --force`
 - If any modifications have been made to `TrackRegistrationAttribution` please consult the updated version to ensure proper compatability  
