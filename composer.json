@@ -1,7 +1,7 @@
 {
     "name": "kyranb/footprints",
     "type": "library",
-    "description": "A simple registration attribution tracking solution for Laravel 5.2+ (UTM Parameters and Referrers)",
+    "description": "A simple registration attribution tracking solution for Laravel (UTM Parameters and Referrers)",
     "keywords": [
         "footprints",
         "tracking",
