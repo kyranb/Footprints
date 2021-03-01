@@ -25,6 +25,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
+    public function getEnvironmentSetUp($app)
+    {
+        // import the CreatePostsTable class from the migration
+        include_once __DIR__ . '/../database/migrations/create_footprints_table.php.stub';
+
+        // run the up() method of that migration class
+        (new \CreateFootprintsTable)->up();
+    }
+
     /**
      * Define routes setup.
      *
