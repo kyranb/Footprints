@@ -32,6 +32,17 @@ trait TrackRegistrationAttribution
     }
 
     /**
+     * Method depricated use 'trackRegistration' method.
+     *
+     * @deprecated
+     * @return void
+     */
+    public function assignPreviousVisits()
+    {
+        return $this->trackRegistration();
+    }
+
+    /**
      * Assign earlier visits using current request.
      */
     public function trackRegistration(Request $request): void
