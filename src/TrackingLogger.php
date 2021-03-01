@@ -15,7 +15,7 @@ class TrackingLogger implements TrackingLoggerInterface
     protected Request $request;
 
     /**
-     * Determine whether or not the request should be tracked.
+     * Track the request.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Request
