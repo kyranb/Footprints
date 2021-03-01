@@ -16,8 +16,8 @@ class AssignPreviousVisits implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected string $footprint;
-    protected TrackableInterface $trackable;
+    public string $footprint;
+    public TrackableInterface $trackable;
 
     public function __construct(string $footprint, TrackableInterface $trackable)
     {
