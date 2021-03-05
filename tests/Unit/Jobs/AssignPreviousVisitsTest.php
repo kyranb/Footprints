@@ -2,7 +2,7 @@
 
 namespace Kyranb\Footprints\Tests\Unit\Jobs;
 
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Kyranb\Footprints\Events\RegistrationTracked;
 use Kyranb\Footprints\Jobs\AssignPreviousVisits;
@@ -12,23 +12,22 @@ use Mockery\MockInterface;
 
 class AssignPreviousVisitsTest extends TestCase
 {
-    public function test_emits_event_registration_tracked()
-    {
-        $request = $this->mock(Request::class, function (MockInterface $mock) {
-            //
-        });
+    use RefreshDatabase;
 
+    public function test_emits_registration_tracked_event()
+    {
         $trackable = $this->mock(TrackableInterface::class, function (MockInterface $mock) {
-            $mock->shouldReceive('trackRegistration')->once();
+            $mock->id = 123;
         });
 
         Event::fake();
 
-        $job = new AssignPreviousVisits($request, $trackable);
+        $job = new AssignPreviousVisits('test-footprint', $trackable);
         $job->handle(); // We are not checking the "queue" part of the job, only that it does actually dispatch the event
 
         Event::assertDispatched(RegistrationTracked::class, function ($event) use ($trackable) {
-            return $event->trackable === $trackable;
+            return $event->trackable === $trackable
+                && $event->footprint = 'test-footprint';
         });
     }
 }
