@@ -17,7 +17,7 @@ trait TrackRegistrationAttribution
     {
         // Add an observer that upon registration will automatically sync up prior visits.
         static::created(function (Model $model) {
-            $model->trackRegistration();
+            $model->trackRegistration(request());
         });
     }
 
