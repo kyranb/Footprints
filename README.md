@@ -78,39 +78,57 @@ Go over the configuration file, most notably the model you wish to track:
 
 connection name (optional - if you need a separated tracking database):
 
-``` 'connection_name' => 'mytrackingdbconnection' ```
+``` php
+'connection_name' => 'mytrackingdbconnection'
+```
 
 model name:
 
-``` 'model' => 'App\Models\User' ```
+``` php
+'model' => 'App\Models\User'
+```
 
 authentication guard:
 
-``` 'guard' => 'web' ```
+``` php
+'guard' => 'web'
+```
 
 the column name:
 
-``` 'model_column_name' => 'user_id' ```
+``` php
+'model_column_name' => 'user_id'
+```
 
 and attribution duration (in seconds)
 
-``` 'attribution_duration' => 2628000 ```
+``` php
+'attribution_duration' => 2628000
+```
 
 also you can define some route what you don't want to track:
 
-``` 'landing_page_blacklist' => ['genealabs/laravel-caffeine/drip', 'admin'] ```
+``` php
+'landing_page_blacklist' => ['genealabs/laravel-caffeine/drip', 'admin']
+```
 
 if you want to use on multiple subdomain with a wildcard cookie, you can set your custom domain name:
 
-``` 'cookie_domain' => .yourdomain.com ```
+``` php
+'cookie_domain' => .yourdomain.com
+```
 
 this boolean will allow you to write the tracking data to the db in your queue (optional):
 
-``` 'async' => true ```
+``` php
+'async' => true
+```
 
 tracking in cases where cookies are disabled can be achieved by disabling the setting:
 
-``` 'uniqueness' => false ```
+``` php
+'uniqueness' => false
+```
 
 
 ## Usage
@@ -191,6 +209,16 @@ The `TrackingLogger` is responsible for logging relevant information about the r
 Calculating the footprint is done with a request macro which in turn uses a `Footprinter` singleton (can be changed to any class implementing `FootprinterInterface`). It will look for the presence of a `footprints` cookie (configurable) and use that if it exists. If the cookie does not exist then it will create it so that it can be tracked on subsequent requests. It might be desireable for some to implement a custom logic for this but note that it is important that the calculation is a *pure function* meaning that calling this method multiple times with the same request as input should always yield the same result.
 
 At some point the user signs up (or *any* trackable model is created) which fires the job `AssignPreviousVisits`. This job calculates the footprint of the request and looks for any existing logged `Visit` records and link those to the new user.  
+
+### Keeping the footprints table light
+
+#### Disable robots tracking
+
+Your table can get pretty big fast, mostly because of robots (Google, Bing, etc.). To disable robots tracking, change your `footprints.php` file on `config` folder accordingly :
+
+```php
+'disable_robots_tracking' => true 
+```
 
 ## Upgrading
 
