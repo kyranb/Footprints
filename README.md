@@ -192,6 +192,23 @@ Calculating the footprint is done with a request macro which in turn uses a `Foo
 
 At some point the user signs up (or *any* trackable model is created) which fires the job `AssignPreviousVisits`. This job calculates the footprint of the request and looks for any existing logged `Visit` records and link those to the new user.  
 
+### Keeping the footprints table light
+
+#### Prune the table
+
+Without pruning, the `visits` table can accumulate records very quickly. To mitigate this, you should schedule the `footprints:prune` Artisan command to run daily:
+
+```php
+$schedule->command('footprints:prune')->daily();
+```
+
+By default, all entries **unassigned to a user** older than the duration you set on the config file with `attribution_duration` . You may use the days option when calling the command to determine how long to retain Footprint data. For example, the following command will delete all records created over 10 days ago:
+
+```php
+$schedule->command('footprints:prune --days=10')->daily();
+```
+
+
 ## Upgrading
 
 ### 2.x => 3.x
