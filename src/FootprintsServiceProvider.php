@@ -71,5 +71,9 @@ class FootprintsServiceProvider extends ServiceProvider
         $this->app->singleton(FootprinterInterface::class, function ($app) {
             return $app->make(config('footprints.footprinter'));
         });
+
+        $this->commands([
+            Console\PruneCommand::class,
+        ]);
     }
 }
