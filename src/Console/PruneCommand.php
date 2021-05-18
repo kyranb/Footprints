@@ -12,7 +12,7 @@ class PruneCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'footprints:prune {--days : The number of days to retain unassigned Footprints data}';
+    protected $signature = 'footprints:prune {--days= : The number of days to retain unassigned Footprints data}';
 
     /**
      * The console command description.
