@@ -214,6 +214,8 @@ At some point the user signs up (or *any* trackable model is created) which fire
 
 #### Disable robots tracking
 
+> Before disabling robots tracking, you will need to install `jaybizzle/crawler-detect`. To do so : `composer require jaybizzle/crawler-detect`
+
 Your table can get pretty big fast, mostly because of robots (Google, Bing, etc.). To disable robots tracking, change your `footprints.php` file on `config` folder accordingly :
 
 ```php
