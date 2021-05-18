@@ -30,8 +30,6 @@ class PruneCommand extends Command
     {
         $days = $this->option('days') ?? config('footprints.attribution_duration') / (60 * 60 * 24);
 
-        return Visit::unassignedPreviousVisits()
-            ->where('created_at', '<=', today()->subDays($days))
-            ->delete();
+        return Visit::prunable($days)->delete();
     }
 }

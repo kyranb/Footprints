@@ -80,4 +80,14 @@ class Visit extends Model
     {
         return $query->whereNull(config('footprints.column_name'))->where('footprint', $footprint);
     }
+
+    /**
+     * Scope a query to only include unassigned visits older than $days days
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePrunable($query, $days)
+    {
+        return $query->whereNull(config('footprints.column_name'))->where('created_at', '<=', today()->subDays($days));
+    }
 }
