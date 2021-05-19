@@ -4,6 +4,7 @@ namespace Kyranb\Footprints;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 
 class TrackingFilter implements TrackingFilterInterface
 {
@@ -38,6 +39,10 @@ class TrackingFilter implements TrackingFilterInterface
         }
 
         if ($this->disabledLandingPages($this->captureLandingPage())) {
+            return false;
+        }
+
+        if ($this->disableRobotsTracking()) {
             return false;
         }
 
@@ -96,5 +101,17 @@ class TrackingFilter implements TrackingFilterInterface
     protected function captureLandingPage()
     {
         return $this->request->path();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function disableRobotsTracking()
+    {
+        if (! config('footprints.disable_robots_tracking')) {
+            return false;
+        }
+
+        return (new CrawlerDetect)->isCrawler();
     }
 }

@@ -149,10 +149,13 @@ return [
     | Tracking settings
     |--------------------------------------------------------------------------
     |
+    | Robots tracking are for instance search engine. Since they will never
+    | register, it might be interesting to not track them to save space.
     |
     */
     'disable_on_authentication' => true,
     'disable_internal_links' => true,
+    'disable_robots_tracking' => false,
 
     /*
     |--------------------------------------------------------------------------

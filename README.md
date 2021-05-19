@@ -78,39 +78,57 @@ Go over the configuration file, most notably the model you wish to track:
 
 connection name (optional - if you need a separated tracking database):
 
-``` 'connection_name' => 'mytrackingdbconnection' ```
+``` php
+'connection_name' => 'mytrackingdbconnection'
+```
 
 model name:
 
-``` 'model' => 'App\Models\User' ```
+``` php
+'model' => 'App\Models\User'
+```
 
 authentication guard:
 
-``` 'guard' => 'web' ```
+``` php
+'guard' => 'web'
+```
 
 the column name:
 
-``` 'model_column_name' => 'user_id' ```
+``` php
+'model_column_name' => 'user_id'
+```
 
 and attribution duration (in seconds)
 
-``` 'attribution_duration' => 2628000 ```
+``` php
+'attribution_duration' => 2628000
+```
 
 also you can define some route what you don't want to track:
 
-``` 'landing_page_blacklist' => ['genealabs/laravel-caffeine/drip', 'admin'] ```
+``` php
+'landing_page_blacklist' => ['genealabs/laravel-caffeine/drip', 'admin']
+```
 
 if you want to use on multiple subdomain with a wildcard cookie, you can set your custom domain name:
 
-``` 'cookie_domain' => .yourdomain.com ```
+``` php
+'cookie_domain' => .yourdomain.com
+```
 
 this boolean will allow you to write the tracking data to the db in your queue (optional):
 
-``` 'async' => true ```
+``` php
+'async' => true
+```
 
 tracking in cases where cookies are disabled can be achieved by disabling the setting:
 
-``` 'uniqueness' => false ```
+``` php
+'uniqueness' => false
+```
 
 
 ## Usage
@@ -208,6 +226,17 @@ By default, all entries **unassigned to a user** older than the duration you set
 $schedule->command('footprints:prune --days=10')->daily();
 ```
 
+
+=======
+#### Disable robots tracking
+
+> Before disabling robots tracking, you will need to install `jaybizzle/crawler-detect`. To do so : `composer require jaybizzle/crawler-detect`
+
+Your table can get pretty big fast, mostly because of robots (Google, Bing, etc.). To disable robots tracking, change your `footprints.php` file on `config` folder accordingly :
+
+```php
+'disable_robots_tracking' => true 
+```
 
 ## Upgrading
 
