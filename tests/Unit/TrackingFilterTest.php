@@ -25,4 +25,9 @@ class TrackingFilterTest extends TestCase
     {
         // TODO: Implement
     }
+
+    public function test_disabled_for_robots_tracking()
+    {
+        // TODO: Implement
+    }
 }

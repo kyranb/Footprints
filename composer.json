@@ -27,6 +27,9 @@
         "phpunit/phpunit": "^9.0",
         "friendsofphp/php-cs-fixer": "^2.15"
     },
+    "suggest": {
+        "jaybizzle/crawler-detect": "Needed if you plan to disable robots tracking"
+    },
     "autoload": {
         "psr-4": {
             "Kyranb\\Footprints\\": "src/"
