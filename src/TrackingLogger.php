@@ -4,6 +4,7 @@ namespace Kyranb\Footprints;
 
 use Illuminate\Http\Request;
 use Kyranb\Footprints\Jobs\TrackVisit;
+use Illuminate\Support\Facades\Auth;
 
 class TrackingLogger implements TrackingLoggerInterface
 {
@@ -24,7 +25,7 @@ class TrackingLogger implements TrackingLoggerInterface
     {
         $this->request = $request;
 
-        $job = new TrackVisit($this->captureAttributionData());
+        $job = new TrackVisit($this->captureAttributionData(), Auth::user() ? Auth::user()->id : null);
         if (config('footprints.async') == true) {
             dispatch($job);
         } else {
