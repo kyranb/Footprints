@@ -63,7 +63,7 @@ trait TrackRegistrationAttribution
      */
     public function initialAttributionData()
     {
-        return $this->visits()->orderBy('created_at', 'asc')->first();
+        return $this->hasMany(Visit::class, config('footprints.column_name'))->orderBy('created_at', 'asc')->first();
     }
 
     /**
@@ -73,6 +73,6 @@ trait TrackRegistrationAttribution
      */
     public function finalAttributionData()
     {
-        return $this->visits()->orderBy('created_at', 'desc')->first();
+        return $this->hasMany(Visit::class, config('footprints.column_name'))->orderBy('created_at', 'desc')->first();
     }
 }
