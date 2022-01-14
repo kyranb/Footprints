@@ -40,7 +40,7 @@ class TrackingLogger implements TrackingLoggerInterface
      */
     protected function captureAttributionData()
     {
-        return array_merge(
+        $attributes = array_merge(
             [
                 'footprint'         => $this->request->footprint(),
                 'ip'                => $this->captureIp(),
@@ -54,6 +54,8 @@ class TrackingLogger implements TrackingLoggerInterface
             $this->captureReferrer(),
             $this->getCustomParameter()
         );
+
+        return array_map(fn (?string $item) => is_string($item) ? substr($item, 0, 255) : $item, $attributes);
     }
 
     /**
