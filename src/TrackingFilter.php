@@ -68,13 +68,16 @@ class TrackingFilter implements TrackingFilterInterface
             return false;
         }
 
-        $referrer_domain = parse_url($this->request->headers->get('referer'));
-        $referrer_domain = ! isset($referrer_domain['host']) ? null : $referrer_domain['host'];
-        $request_domain = $this->request->server('SERVER_NAME');
+        if ($referrer_domain = $this->request->headers->get('referer')) {
+            $referrer_domain = parse_url($referrer_domain)['host'] ?? null;
+            $request_domain  = $this->request->server('SERVER_NAME');
 
-        if (! empty($referrer_domain) && $referrer_domain == $request_domain) {
-            return true;
+            if ($referrer_domain && ($referrer_domain === $request_domain)) {
+                return true;
+            }
         }
+
+        return false;
     }
 
     /**
