@@ -1,0 +1,15 @@
+name: Lint
+on: [push]
+jobs:
+  laravel-pint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
+
+      - name: Check code style
+        run: ./vendor/bin/pint --test --preset laravel
