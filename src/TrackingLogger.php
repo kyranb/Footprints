@@ -55,7 +55,18 @@ class TrackingLogger implements TrackingLoggerInterface
             $this->getCustomParameter()
         );
 
-        return array_map(fn (?string $item) => is_string($item) ? substr($item, 0, 255) : $item, $attributes);
+        // Reformat attributes
+        foreach($attributes as $key => $item) {
+            if(is_string($item)) {
+                $items[$key] = substr($item, 0, 255);
+            } elseif(is_array($item)) {
+                $items[$key] = substr(reset($item), 0, 255);
+            } else {
+                $items[$key] = $item;
+            }
+        }
+
+        return $items;
     }
 
     /**
