@@ -10,16 +10,11 @@ class TrackingFilter implements TrackingFilterInterface
 {
     /**
      * The Request instance.
-     *
-     * @var \Illuminate\Http\Request
      */
     protected Request $request;
 
     /**
      * Determine whether or not the request should be tracked.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return bool
      */
     public function shouldTrack(Request $request): bool
     {
@@ -70,7 +65,7 @@ class TrackingFilter implements TrackingFilterInterface
 
         if ($referrer_domain = $this->request->headers->get('referer')) {
             $referrer_domain = parse_url($referrer_domain)['host'] ?? null;
-            $request_domain  = $this->request->server('SERVER_NAME');
+            $request_domain = $this->request->server('SERVER_NAME');
 
             if ($referrer_domain && ($referrer_domain === $request_domain)) {
                 return true;
@@ -81,9 +76,8 @@ class TrackingFilter implements TrackingFilterInterface
     }
 
     /**
-     *
-     * @param   string  $landing_page
-     * @return  array|boolean
+     * @param  string  $landing_page
+     * @return  array|bool
      */
     protected function disabledLandingPages($landing_page = null)
     {

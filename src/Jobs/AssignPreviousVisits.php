@@ -5,7 +5,6 @@ namespace Kyranb\Footprints\Jobs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Http\Request;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Kyranb\Footprints\Events\RegistrationTracked;
@@ -17,6 +16,7 @@ class AssignPreviousVisits implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public string $footprint;
+
     public TrackableInterface $trackable;
 
     public function __construct(string $footprint, TrackableInterface $trackable)

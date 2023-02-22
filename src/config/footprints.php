@@ -166,7 +166,7 @@ return [
     */
     'landing_page_blacklist' => [
 
-        'genealabs/laravel-caffeine/drip'
+        'genealabs/laravel-caffeine/drip',
     ],
 
     /*

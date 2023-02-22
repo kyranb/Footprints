@@ -3,7 +3,6 @@
 namespace Kyranb\Footprints\Middleware;
 
 use Closure;
-
 use Illuminate\Http\Request;
 use Kyranb\Footprints\TrackingFilterInterface;
 use Kyranb\Footprints\TrackingLoggerInterface;
@@ -23,8 +22,6 @@ class CaptureAttributionDataMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
      *
      * @return mixed
      */
