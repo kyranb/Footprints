@@ -15,7 +15,6 @@ class RegistrationTracked
     /**
      * Create a new event instance.
      *
-     * @param TrackableInterface $trackable
      * @return void
      */
     public function __construct(TrackableInterface $trackable)

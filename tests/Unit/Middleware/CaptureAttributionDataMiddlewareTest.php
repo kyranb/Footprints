@@ -9,7 +9,6 @@ use Kyranb\Footprints\Tests\TestCase;
 use Kyranb\Footprints\TrackingFilterInterface;
 use Kyranb\Footprints\TrackingLoggerInterface;
 
-
 class CaptureAttributionDataMiddlewareTest extends TestCase
 {
     public function test_logs_when_filter_returns_true()

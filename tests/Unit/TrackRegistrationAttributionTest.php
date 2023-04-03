@@ -46,7 +46,8 @@ class TrackRegistrationAttributionTest extends TestCase
     }
 }
 
-class User implements TrackableInterface {
+class User implements TrackableInterface
+{
     use TrackRegistrationAttribution;
 
     public $id = 123;

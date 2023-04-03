@@ -35,6 +35,7 @@ trait TrackRegistrationAttribution
      * Method depricated use 'trackRegistration' method.
      *
      * @deprecated
+     *
      * @return void
      */
     public function assignPreviousVisits()
