@@ -17,7 +17,7 @@ class Footprinter implements FootprinterInterface
         $this->random = Str::random(20); // Will only be set once during requests since this class is a singleton
     }
 
-    /** @inheritDoc */
+    /** {@inheritDoc} */
     public function footprint(Request $request): string
     {
         $this->request = $request;

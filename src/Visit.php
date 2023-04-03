@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visit extends Model
 {
-
     /**
      * The name of the database table.
      *
@@ -34,10 +33,8 @@ class Visit extends Model
     /**
      * Override constructor to set the table name @ time of instantiation.
      *
-     * @param array $attributes
      * @return void
      */
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

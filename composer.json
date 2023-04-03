@@ -25,7 +25,6 @@
     "require-dev": {
         "orchestra/testbench": "^6.0",
         "phpunit/phpunit": "^9.0",
-        "friendsofphp/php-cs-fixer": "^2.15 || ^3.14"
     },
     "suggest": {
         "jaybizzle/crawler-detect": "Needed if you plan to disable robots tracking"

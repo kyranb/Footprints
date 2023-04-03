@@ -11,6 +11,7 @@ class TrackVisit implements ShouldQueue
     use Queueable;
 
     protected array $attributionData;
+
     public $trackableId;
 
     public function __construct(array $attributionData, $trackableId = null)

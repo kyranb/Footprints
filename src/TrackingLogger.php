@@ -3,23 +3,18 @@
 namespace Kyranb\Footprints;
 
 use Illuminate\Http\Request;
-use Kyranb\Footprints\Jobs\TrackVisit;
 use Illuminate\Support\Facades\Auth;
+use Kyranb\Footprints\Jobs\TrackVisit;
 
 class TrackingLogger implements TrackingLoggerInterface
 {
     /**
      * The Request instance.
-     *
-     * @var \Illuminate\Http\Request
      */
     protected Request $request;
 
     /**
      * Track the request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Request
      */
     public function track(Request $request): Request
     {
@@ -42,13 +37,13 @@ class TrackingLogger implements TrackingLoggerInterface
     {
         $attributes = array_merge(
             [
-                'footprint'         => $this->request->footprint(),
-                'ip'                => $this->captureIp(),
-                'landing_domain'    => $this->captureLandingDomain(),
-                'landing_page'      => $this->captureLandingPage(),
-                'landing_params'    => $this->captureLandingParams(),
-                'referral'          => $this->captureReferral(),
-                'gclid'             => $this->captureGCLID(),
+                'footprint' => $this->request->footprint(),
+                'ip' => $this->captureIp(),
+                'landing_domain' => $this->captureLandingDomain(),
+                'landing_page' => $this->captureLandingPage(),
+                'landing_params' => $this->captureLandingParams(),
+                'referral' => $this->captureReferral(),
+                'gclid' => $this->captureGCLID(),
             ],
             $this->captureUTM(),
             $this->captureReferrer(),
@@ -56,10 +51,10 @@ class TrackingLogger implements TrackingLoggerInterface
         );
 
         // Reformat attributes
-        foreach($attributes as $key => $item) {
-            if(is_string($item)) {
+        foreach ($attributes as $key => $item) {
+            if (is_string($item)) {
                 $items[$key] = substr($item, 0, 255);
-            } elseif(is_array($item)) {
+            } elseif (is_array($item)) {
                 $items[$key] = substr(reset($item), 0, 255);
             } else {
                 $items[$key] = $item;
