@@ -5,6 +5,7 @@
 /vendor
 .php_cs.cache
 .phpunit.result.cache
+.phpunit.cache
 .DS_Store
 Thumbs.db
 composer.phar
