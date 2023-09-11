@@ -20,11 +20,11 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0 || ^8.1",
-        "illuminate/support": "^7.0 || ^8.0 || ^9.0 || ^10.0"
+        "illuminate/support": "^7.* || ^8.* || ^9.* || ^10.*"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.5",
-        "phpunit/phpunit": "^10.0"
+        "orchestra/testbench": "^6.* || 7.* || ^8.*",
+        "phpunit/phpunit": "^9.* || ^10.*"
     },
     "suggest": {
         "jaybizzle/crawler-detect": "Needed if you plan to disable robots tracking"
