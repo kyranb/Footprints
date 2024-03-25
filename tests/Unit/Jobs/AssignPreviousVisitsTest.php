@@ -2,7 +2,6 @@
 
 namespace Kyranb\Footprints\Tests\Unit\Jobs;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Kyranb\Footprints\Events\RegistrationTracked;
 use Kyranb\Footprints\Jobs\AssignPreviousVisits;
@@ -12,8 +11,6 @@ use Mockery\MockInterface;
 
 class AssignPreviousVisitsTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_emits_registration_tracked_event()
     {
         $trackable = $this->mock(TrackableInterface::class, function (MockInterface $mock) {
