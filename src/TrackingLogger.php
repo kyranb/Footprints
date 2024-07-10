@@ -145,7 +145,7 @@ class TrackingLogger implements TrackingLoggerInterface
 
         $referrer['referrer_url'] = $this->request->headers->get('referer');
 
-        $parsedUrl = parse_url($referrer['referrer_url']);
+        $parsedUrl = parse_url($referrer['referrer_url'] ?? '');
 
         $referrer['referrer_domain'] = isset($parsedUrl['host']) ? $parsedUrl['host'] : null;
 
