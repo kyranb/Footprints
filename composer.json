@@ -1,55 +1,52 @@
 {
-    "name": "kyranb/footprints",
-    "type": "library",
-    "description": "A simple registration attribution tracking solution for Laravel (UTM Parameters and Referrers)",
-    "keywords": [
-        "footprints",
-        "tracking",
-        "utm",
-        "utm parameters",
-        "user tracking",
-        "attribution tracking"
-    ],
-    "homepage": "https://github.com/kyranb/footprints",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Kyran",
-            "email": "kyranb@users.noreply.github.com"
-        }
-    ],
-    "require": {
-        "php": "^7.4 || ^8.0 || ^8.1",
-        "illuminate/support": "^7.0 || ^8.0 || ^9.0 || ^10.0"
-    },
-    "require-dev": {
-        "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^9.0"
-    },
-    "suggest": {
-        "jaybizzle/crawler-detect": "Needed if you plan to disable robots tracking"
-    },
-    "autoload": {
-        "psr-4": {
-            "Kyranb\\Footprints\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Kyranb\\Footprints\\Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "test": "phpunit"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        },
-        "laravel": {
-            "providers": [
-                "Kyranb\\Footprints\\FootprintsServiceProvider"
-            ]
-        }
+  "name": "kyranb/footprints",
+  "type": "library",
+  "description": "A simple registration attribution tracking solution for Laravel (UTM Parameters and Referrers)",
+  "keywords": [
+    "footprints",
+    "tracking",
+    "utm",
+    "utm parameters",
+    "user tracking",
+    "attribution tracking"
+  ],
+  "homepage": "https://github.com/kyranb/footprints",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kyran Beasley",
+      "email": "kyranb@users.noreply.github.com"
     }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "illuminate/support": "^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^6.0 || ^7.0 || ^8.0 || ^9.0",
+    "phpunit/phpunit": "^9.0 || ^10.0"
+  },
+  "suggest": {
+    "jaybizzle/crawler-detect": "Needed if you plan to disable robots tracking"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kyranb\\Footprints\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Kyranb\\Footprints\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Kyranb\\Footprints\\FootprintsServiceProvider"
+      ]
+    }
+  }
 }
