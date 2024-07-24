@@ -15,7 +15,7 @@
   "authors": [
     {
       "name": "Kyran Beasley",
-      "email": "kyranbeasley@gmail.com"
+      "email": "kyranb@users.noreply.github.com"
     }
   ],
   "require": {
@@ -43,9 +43,6 @@
     "test": "phpunit"
   },
   "extra": {
-    "branch-alias": {
-      "dev-master": "1.0-dev"
-    },
     "laravel": {
       "providers": [
         "Kyranb\\Footprints\\FootprintsServiceProvider"
