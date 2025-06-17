@@ -5,11 +5,13 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
         php: [8.3, 8.2, 8.1, 8.0, 7.4]
+        laravel: [12.*, 11.*, 10.*, 9.*, 8.*, 7.*]   # ← added
         dependency-version: [prefer-stable]
         include:
           - laravel: 12.*
@@ -65,14 +67,14 @@ jobs:
           - laravel: 12.*
             php: 8.2
 
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+    name: PHP ${{ matrix.php }} · Laravel ${{ matrix.laravel }} · ${{ matrix.dependency-version }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2.30.0
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
@@ -88,7 +90,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
+          composer require \
+            "laravel/framework:${{ matrix.laravel }}" \
+            "orchestra/testbench:${{ matrix.testbench }}" \
+            --dev --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Run PHPUnit
