@@ -1,4 +1,4 @@
-# :feet: Footprints for (UTM and Referrer Tracking)
+# :feet: Footprints for Laravel (UTM and Referrer Tracking)
 
 ![Footprints for Laravel (UTM and Referrer Tracking)](readme-header.jpg)
 
