@@ -2,6 +2,7 @@
 
 namespace Kyranb\Footprints;
 
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
@@ -16,6 +17,7 @@ class FootprintsServiceProvider extends ServiceProvider
         $this->publishConfig();
         $this->publishMigration();
         $this->bootMacros();
+        $this->disableCookieEncryption();
     }
 
     /**
@@ -46,6 +48,13 @@ class FootprintsServiceProvider extends ServiceProvider
     {
         Request::macro('footprint', function () {
             return App::make(FootprinterInterface::class)->footprint($this);
+        });
+    }
+
+    protected function disableCookieEncryption()
+    {
+        $this->app->resolving(EncryptCookies::class, function (EncryptCookies $middleware) {
+            $middleware->disableFor(config('footprints.cookie_name'));
         });
     }
 
