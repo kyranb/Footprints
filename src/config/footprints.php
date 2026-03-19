@@ -68,6 +68,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Disable Cookie Encryption
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, the footprints cookie will be excluded from Laravel's
+    | EncryptCookies middleware. Enable this if you experience mismatched
+    | footprint values between the first and subsequent requests. The
+    | cookie only contains a non-sensitive SHA1 hash.
+    |
+    */
+    'cookie_disable_encryption' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Tracking Filter
     |--------------------------------------------------------------------------
     |

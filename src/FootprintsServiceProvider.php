@@ -17,7 +17,9 @@ class FootprintsServiceProvider extends ServiceProvider
         $this->publishConfig();
         $this->publishMigration();
         $this->bootMacros();
-        $this->disableCookieEncryption();
+        if (config('footprints.cookie_disable_encryption', false)) {
+            $this->disableCookieEncryption();
+        }
     }
 
     /**
